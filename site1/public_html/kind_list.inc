@@ -112,26 +112,14 @@ if((encode($_COOKIE["siteid"])=='' && encode($_GET["site"])=="") || encode($_GET
 if((encode($_COOKIE["siteid"])=='' && encode($_GET["site"])=="") || encode($_GET["site"])=="exit" || $kind=="hosting" || $kind=="hosting2" || $kind=="hosting3") {
 	$subkinds[]=Array(1,'block','Создать');
 	if($_SESSION["user_id"]!='') {
-		if($kind!="hosting2") {
+		
 			$subkinds[]=Array(1,$server_absolute_path_site.'hosting2/','cистему заявок');
-		}
-		if($kind!="hosting") {
-			$subkinds[]=Array(1,$server_absolute_path_site.'hosting/','cистему заявок + сайт');
-		}
-		if($kind!="hosting3") {
-			$subkinds[]=Array(1,$server_absolute_path_site.'hosting3/','cайт');
-		}
+	
 	}
 	else {
-		if($kind!="hosting2") {
+		
 			$subkinds[]=Array(1,$server_absolute_path.'register/redirectobj=hosting2','cистему заявок');
-		}
-		if($kind!="hosting") {
-			$subkinds[]=Array(1,$server_absolute_path.'register/redirectobj=hosting','cистему заявок + сайт');
-		}
-		if($kind!="hosting3") {
-			$subkinds[]=Array(1,$server_absolute_path.'register/redirectobj=hosting3','cайт');
-		}
+		
 	}
 }
 elseif((($getsite>0 || encode($_COOKIE["siteid"])>0) && $getsite!='exit') && $_SESSION["user_sid"]!='') {
