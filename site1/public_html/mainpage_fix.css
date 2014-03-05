@@ -1,0 +1,13 @@
+﻿div.header {
+	height: auto !important;
+}
+div.header_left .pagetitle_wrap {
+	height: 0%;
+	margin-bottom: 8%;
+}
+div.header_right .login {
+	margin-bottom: 3.8%;
+}
+div.header_right .menu_wrapper {
+	height: 0%;
+}

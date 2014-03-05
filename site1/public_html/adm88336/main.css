@@ -1,0 +1,34 @@
+﻿body {
+	background-color: #FFFFFF;
+	color: #666666;
+	background: none;
+	font-size: 100%;
+}
+div.topmenu {
+	text-align: center;
+	font-size: 150%;
+}
+div.topmenu a {
+	font-weight: bold;
+	font-size: 90%;
+	padding-left: 0.5%;
+	padding-right: 0.5%;
+}
+div.topmenu a.selected {
+	background: #E91A35;
+	color: #FFFFFF;
+}
+div.topmenu a.selected:hover {
+	border-bottom: 0px;
+}
+a.cross {
+	cursor: pointer;
+	background: #E91A35;
+	padding: 0px 3px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+a.cross:hover {
+	color: #FFFFFF;
+	text-decoration: none;
+}

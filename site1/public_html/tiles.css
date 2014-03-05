@@ -1,0 +1,586 @@
+﻿div.counter {
+	background-image: url(images/design/messages.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	color: white;
+	text-align: center;
+	font: 140% Segoe UI;
+	font-size: 140%;
+	background-size: 100%;
+	display: table;
+}
+
+div.counter div {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+nav {
+	list-style: none;
+	height: 100%;
+	display: block;
+	width: 100%;
+	font-size: 100%;
+}
+nav li {
+	height: 100%;
+	margin: 0px;
+}
+nav li>a, nav li.tile_myorders2 > div, nav li.tile_mysitesorders2 > div {
+	border: 0px;
+	float: left;
+	font: 110% Segoe UI, 'Cutive', Helvetica, Verdana, sans-serif;
+	padding: 0px;
+	text-align: left;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: white;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	height: 100%;
+	width: 100%;
+	text-shadow:-1px -1px 1px rgba(255,255,255,0.2), /* наверх и влево */
+	1px 1px 1px rgba(255,255,255,0.2), /* вниз и вправо */
+	1px 1px 1px rgba(0,0,0,0.7); /* тёмная тень */
+
+	/*TRANSISTIONS*/
+	-webkit-transition: background 0.5s ease;
+	-moz-transition: background 0.5s ease;
+	-o-transition: background 0.5s ease;
+	-ms-transition: background 0.5s ease;
+	transition: background 0.5s ease;
+}
+
+nav li a .placeholder {
+	text-shadow: none;
+}
+
+nav li a:hover,nav li a:visited,nav li a:active, nav li a:link {
+	color: white;
+	border-bottom: 0px;
+}
+
+.blue>a, .blue>a:link, .blue>div {
+	background-color: rgba(0, 178, 185, 0.7);
+}
+.blue>a:hover, .blue>a:active, .blue>div:hover {
+	background-color: rgba(0, 128, 135, 0.9);
+}
+.black>a, .black>a:link, .black>div {
+	background-color: rgba(0, 0, 0, 0.6);
+}
+.black>a:hover, .black>a:active, .black>div:hover {
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+div.tile_logged_section1 {
+	width: 15.82%;
+	height: 65.71%;
+	float: left;
+	margin-right: 2.08%;
+	margin-bottom: 2.08%;
+}
+
+li.tile_logged {
+	height: 74.25%;
+	width: 100%;
+	margin-bottom: 13.2%;
+}
+.tile_logged div.text {
+	padding-left: 6%;
+	font-size: 130%;
+}
+
+.tile_logged div.avatar_photo {
+	max-height: 72%;
+	overflow-y: hidden;
+}
+.tile_logged .avatar {
+	width: 100%;
+}
+.tile_logged .avatar:hover {
+	border-bottom: 0px;
+}
+
+li.tile_logout {
+	height: 19.66%;
+	width: 100%;
+}
+.tile_logout div.text {
+	padding-left: 44%;
+	padding-top: 11%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/exit.png);
+	background-position: 10% center;
+	background-repeat: no-repeat;
+	background-size: 30%;
+	font-size: 150%;
+}
+
+div.tile_logged_section2 {
+	width: 46.3%;
+	height: 65.71%;
+	float: left;
+	margin-right: 2.08%;
+	margin-bottom: 2.08%;
+}
+
+li.tile_myorders {
+	height: 46.96%;
+	width: 100%;
+	margin-bottom: 4.51%;
+}
+.tile_myorders div.text {
+	padding-left: 31%;
+	padding-top: 12%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/my_orders.png);
+	background-position: 8% center;
+	background-repeat: no-repeat;
+	background-size: 11%;
+	font-size: 220%;
+}
+.tile_myorders div.counter {
+	float: right;
+	margin-top: 1%;
+	margin-right: 1%;
+	width: 8%;
+	height: 24%;
+}
+
+li.tile_myorders2 {
+	height: 46.96% !important;
+	width: 100%;
+	margin-bottom: 4.51% !important;
+	display: none;
+}
+
+li.tile_myorders2>div {
+	padding: 3% !important;
+}
+
+li.tile_myorders2>div>div {
+	overflow-y: auto;
+	height: 100%;
+}
+
+li.tile_mysitesorders {
+	height: 46.96%;
+	width: 100%;
+	float: left;
+}
+.tile_mysitesorders div.text {
+	padding-right: 5%;
+	padding-top: 15%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/people.png);
+	background-position: 2% 6%;
+	background-repeat: no-repeat;
+	background-size: 14%;
+	font-size: 220%;
+	line-height: 110%;
+	text-align: right;
+}
+.tile_mysitesorders div.counter {
+	float: left;
+	margin-top: 2%;
+	margin-left: 18%;
+	width: 8%;
+	height: 24%;
+}
+
+li.tile_mysitesorders2 {
+	height: 46.96% !important;
+	width: 100%;
+	display: none;
+}
+
+li.tile_mysitesorders2>div {
+	padding: 3% !important;
+}
+
+li.tile_mysitesorders2>div>div {
+	overflow-y: auto;
+	height: 100%;
+}
+
+div.tile_logged_section3 {
+	width: 15.82%;
+	float: left;
+	height: 65.71%;
+	margin-right: 2.08%;
+	margin-bottom: 2.08%;
+}
+
+li.tile_calendar {
+	height: 100%;
+	width: 100%;
+}
+.tile_calendar div.text {
+	padding-right: 8%;
+	padding-top: 121%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/calendar.png);
+	background-position: 88% 42%;
+	background-repeat: no-repeat;
+	background-size: 43%;
+	font-size: 170%;
+	text-align: right;
+}
+
+div.tile_logged_section4 {
+	width: 15.82%;
+	float: left;
+	height: 65.71%;
+	margin-right: 0px;
+	margin-bottom: 2.08%;
+}
+
+li.tile_support {
+	height: 46.96%;
+	width: 100%;
+	float: left;
+	margin-bottom: 13.2%;
+}
+.tile_support div.text {
+	padding-top: 68%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/support.png);
+	background-position: center 40%;
+	background-repeat: no-repeat;
+	background-size: 50%;
+	font-size: 130%;
+	text-align: center;
+}
+
+li.tile_info {
+	height: 46.96%;
+	width: 100%;
+	margin-right: 0px;
+	float: left;
+}
+.tile_info div.text {
+	padding-top: 70%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/info.png);
+	background-position: center 40%;
+	background-repeat: no-repeat;
+	background-size: 40%;
+	font-size: 130%;
+	text-align: center;
+}
+
+div.tile_logged_section5 {
+	width: 100%;
+	height: 30.29%;
+	clear: left;
+	margin-bottom: 0px;
+	margin-right: 0px;
+}
+
+li.tile_messages {
+	height: 100%;
+	width: 15.82%;
+	float: left;
+	margin-bottom: 0px;
+	margin-right: 2.08%;
+}
+.tile_messages div.text {
+	padding-top: 68%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/messages.png);
+	background-position: center 45%;
+	background-repeat: no-repeat;
+	background-size: 50%;
+	font-size: 130%;
+	text-align: center;
+}
+.tile_messages div.counter {
+	float: right;
+	margin-top: 3%;
+	margin-right: 3%;
+	width: 23%;
+	height: 24%;
+}
+
+li.tile_neworders {
+	height: 100%;
+	width: 40.01%;
+	float: left;
+	margin-bottom: 0px;
+	margin-right: 2.08%;
+}
+.tile_neworders div.text {
+	padding-top: 5%;
+	padding-left: 40%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/cogs.png);
+	background-position: 9% center;
+	background-repeat: no-repeat;
+	background-size: 25%;
+	font-size: 250%;
+	text-align: left;
+	line-height: 110%;
+}
+
+li.tile_neworder {
+	height: 100%;
+	width: 40.01%;
+	float: left;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.tile_neworder div.text {
+	padding-top: 7%;
+	padding-left: 5%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/new_order.png);
+	background-position: 96% 23%;
+	background-repeat: no-repeat;
+	background-size: 17%;
+	font-size: 250%;
+	text-align: left;
+}
+
+div.tile_notlogged_section1 {
+	width: 15.82%;
+	height: 100%;
+	float: left;
+	margin-right: 2.08%;
+	margin-bottom: 0px;
+}
+
+li.tile_enter {
+	height: 46.96%;
+	width: 100%;
+	float: left;
+	margin-bottom: 13.2%;
+}
+
+.tile_enter .ui-button {
+	width: 48%;
+}
+.tile_enter .ui-button-text, .tile_enter .ui-button-text-only {
+	padding: 4% 4% !important;
+	font-size: 107% !important;
+}
+.tile_enter .ui-button-text.button_load {
+	background-size: 45%;
+	background-position: center center;
+}
+
+.tile_enter div.text {
+	padding-top: 73%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/enter.png);
+	background-position: center 40%;
+	background-repeat: no-repeat;
+	background-size: 45%;
+	font-size: 130%;
+	text-align: center;
+}
+
+.tile_enter div#login_choice {
+	display: none;
+	padding-top: 14%;
+	padding-left: 2%;
+	padding-right: 2%;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	text-transform: none;
+}
+
+div#login_choice input[type="text"] {
+	margin-bottom: 1%;
+}
+
+.tile_enter div#login_remind {
+	display: none;
+	padding-top: 24%;
+	padding-left: 2%;
+	padding-right: 2%;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	text-transform: none;
+}
+
+#btn_make_remind {
+	width: 100%;
+}
+#btn_make_remind .ui-button-text.button_load {
+	background-size: 22%;
+}
+
+li.tile_register {
+	height: 46.96%;
+	width: 100%;
+	margin-right: 0px;
+	float: left;
+}
+.tile_register div.text {
+	padding-top: 73%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/registration.png);
+	background-position: center 40%;
+	background-repeat: no-repeat;
+	background-size: 45%;
+	font-size: 130%;
+	text-align: center;
+}
+
+div.tile_notlogged_section2 {
+	width: 46.3%;
+	height: 100%;
+	float: left;
+	margin-right: 2.08%;
+	margin-bottom: 0px;
+}
+
+li.tile_neworder_notlogged {
+	height: 46.96%;
+	width: 100%;
+	margin-bottom: 4.51%;
+}
+.tile_neworder_notlogged div.text {
+	padding-top: 7%;
+	padding-left: 10%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/new_order.png);
+	background-position: 93% 17%;
+	background-repeat: no-repeat;
+	background-size: 17%;
+	font-size: 250%;
+	text-align: left;
+}
+
+li.tile_neworders_notlogged {
+	height: 46.96%;
+	width: 100%;
+	float: left;
+}
+.tile_neworders_notlogged div.text {
+	padding-top: 5%;
+	padding-left: 40%;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/design/tiles/cogs.png);
+	background-position: 9% center;
+	background-repeat: no-repeat;
+	background-size: 25%;
+	font-size: 250%;
+	text-align: left;
+	line-height: 110%;
+}
+
+div.tile_notlogged_section3 {
+	width: 15.82%;
+	float: left;
+	height: 100%;
+	margin-right: 2.08%;
+	margin-bottom: 0px;
+}
+
+div.tile_notlogged_section4 {
+	width: 15.82%;
+	float: left;
+	height: 100%;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+
+/*SMALL*/
+nav small {
+	font: 100 11px/1 Segoe UI, Helvetica, Verdana, sans-serif;
+	text-transform: none;
+	color: #eee;
+}
+
+div.menu_wrapper {
+	width: 100%;
+	height: 52%;
+	float: right;
+	overflow: hidden;
+}
+
+div.menu_wrapper .tile, div.menu_wrapper .tile .tile {
+	height: 100%;
+	width: 13.5%;
+	float: right;
+	padding-left: 1.3%;
+	font-size: 140%;
+	overflow: hidden;
+	display: table;
+}
+
+div.menu_wrapper .menu_block {
+	height: 100%;
+}
+
+div.menu_wrapper .menu_block .tile.close {
+	width: 6%;
+}
+
+div.menu_wrapper .menu_block .tile.close a {
+	background-image: url(images/design/arrow_right.png);
+	background-position: 58% 47%;
+	background-repeat: no-repeat;
+	background-size: 39%;
+}
+
+.tile a {
+	line-height: 95%;
+	display: table-cell;
+	border: 0px;
+	font: Segoe UI, 'Cutive', Helvetica, Verdana, sans-serif;
+	padding: 0px;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: white;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	height: 100%;
+	width: 100%;
+	text-shadow:-1px -1px 1px rgba(255,255,255,0.2), /* наверх и влево */
+	1px 1px 1px rgba(255,255,255,0.2), /* вниз и вправо */
+	1px 1px 1px rgba(0,0,0,0.7); /* тёмная тень */
+
+	/*TRANSISTIONS*/
+	-webkit-transition: background 0.5s ease;
+	-moz-transition: background 0.5s ease;
+	-o-transition: background 0.5s ease;
+	-ms-transition: background 0.5s ease;
+	transition: background 0.5s ease;
+}
+
+.tile a.home {
+	font-size: 110%;
+	padding-top: 60%;
+	background-image: url(images/design/tiles/small_home.png);
+	background-position: 91% 34%;
+	background-repeat: no-repeat;
+	background-size: 35%;
+}
+.tile a.outbox {
+	font-size: 90%;
+}
+
+.menu_block {
+	display: none;
+}
