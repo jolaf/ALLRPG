@@ -226,12 +226,16 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["subscribe"]) {
     $regions=Array();
 	$regions[]=Array('allregions','<b>все регионы</b>');
 
-    $result=mysql_query("SELECT * from ".$prefix."geography where id IN (SELECT DISTINCT parent from ".$prefix."geography where id IN (SELECT DISTINCT city from ".$prefix."users where id IN (SELECT player_id from ".$prefix."roles where site_id=".$_SESSION["siteid"]." and status!=4 and todelete!=1 and todelete2!=1)))");
+	$result = mysql_query("seLECT COUNT(u.id) AS count, g2.id, g2.name
+		from {$prefix}users u
+		INNER JOIN {$prefix}roles r ON u.id = r.player_id
+		INNER JOIN {$prefix}geography g1 ON g1.id = u.city
+		INNER JOIN {$prefix}geography g2 ON g2.id = g1.parent
+		WHERE r.site_id = {$_SESSION['siteid']} and status!=4 and todelete!=1 and todelete2!=1
+		GROUP BY g2.id, g2.name");
 	while($a=mysql_fetch_array($result))
 	{
-		$result2=mysql_query("SELECT COUNT(id) from ".$prefix."users where id IN (SELECT player_id from ".$prefix."roles where site_id=".$_SESSION["siteid"]." and status!=4 and todelete!=1 and todelete2!=1) and city IN (SELECT id from ".$prefix."geography where parent=".$a["id"].")");
-		$b=mysql_fetch_array($result2);
-		$regions[]=Array($a["id"],'<b>'.$a["name"].' ('.$b[0].')</b>');
+		$regions[]=Array($a["id"],'<b>'.$a["name"].' ('.$a['count'].')</b>');
 	}
 
 	$obj_3=createElem(Array(
