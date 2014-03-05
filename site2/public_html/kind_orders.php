@@ -158,7 +158,17 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 	}
 	array_multisort($allchanged_sort, SORT_ASC, $allchanged);
 
-	$result=mysql_query("SELECT DISTINCT u.*, g1.name as g_city, g2.name as g_area FROM ".$prefix."users u LEFT JOIN geography g1 ON g1.id=u.city LEFT JOIN geography g2 ON g2.id=g1.parent WHERE u.id in (SELECT player_id FROM ".$prefix."roles where site_id=".$_SESSION["siteid"].") or u.id in (SELECT changed FROM ".$prefix."roles where site_id=".$_SESSION["siteid"].")");
+	$result=mysql_query("SELECT DISTINCT u.*, g1.name AS g_city, g2.name AS g_area
+	FROM
+		(
+			SELECT player_id AS ID1 FROM ".$prefix."roles WHERE site_id = ".$_SESSION["siteid"]."
+			UNION
+			SELECT CHANGED AS ID1 FROM ".$prefix."roles WHERE site_id = ".$_SESSION["siteid"]."
+		) T
+		INNER JOIN ".$prefix."users u ON u.id = T.ID1
+		LEFT JOIN ".$prefix."geography g1 ON g1.id = u.city
+		LEFT JOIN ".$prefix."geography g2 ON g2.id = g1.parent");
+
 	while($a = mysql_fetch_array($result)) {
 		$allusers[]=Array($a["id"],usname($a,true));
 		$allusers2[]=Array($a["id"],usname2($a,true));
