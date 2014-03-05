@@ -56,7 +56,7 @@ if($a["alter_rolefield"]>0) {
 		}
 		$rolevalues=array_merge(Array(Array('0','Не определено')),$rolevalues);
 
-		$result=mysql_query("SELECT * FROM ".$prefix."users where id in (SELECT player_id FROM ".$prefix."roles where site_id=".$subobj.")");
+		$result=mysql_query("SELECT * FROM ".$prefix."users u,".$prefix."roles r where u.id = r.player_id AND r.site_id = ".$subobj);
 		while($a = mysql_fetch_array($result)) {
 			$allusers[]=Array($a["id"],usname($a,true));
 		}
