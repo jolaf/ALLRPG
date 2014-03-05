@@ -1204,7 +1204,7 @@ body {background-color: white; background: none;}
 	}
 
 	if($history!=1 && $id!='' && !$_SESSION["nouserinfo"]) {
-		$result=mysql_query("SELECT * from ".$prefix."users where id in (select player_id from ".$prefix."roles where id=".$id." and site_id=".$_SESSION["siteid"].")");
+		$result=mysql_query("SELECT * from ".$prefix."users u,".$prefix."roles r where u.id = r.player_id AND r.id=".$id." AND r.site_id=".$_SESSION["siteid"]);
 		$a=mysql_fetch_array($result);
 
 		$users_f=Array (

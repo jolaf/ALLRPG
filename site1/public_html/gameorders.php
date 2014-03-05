@@ -240,7 +240,7 @@ if($game!='')
 			}
 		}
 		else {
-			$result=mysql_query("SELECT * FROM ".$prefix."users where id in (SELECT player_id FROM ".$prefix."roles WHERE site_id=".$subobj.($locat>0?' and locat='.$locat:'').")");
+			$result=mysql_query("SELECT * FROM ".$prefix."users u, ".$prefix."roles r where u.id = r.player_id AND r.site_id=".$subobj.($locat>0?' AND r.locat='.$locat:''));
 			while($a = mysql_fetch_array($result)) {
 				$allusers[]=Array($a["id"],usname($a,true));
 			}
