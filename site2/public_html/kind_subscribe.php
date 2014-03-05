@@ -99,7 +99,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["subscribe"]) {
 				if(encode_to_cp1251($_REQUEST["tosend2"]["allregions"])!='on') {
 					unset($citieslist);
 					$citieslist=Array();
-					$result=mysql_query("SELECT * from ".$prefix."geography where id IN (SELECT DISTINCT parent from ".$prefix."geography where id IN (SELECT DISTINCT city from ".$prefix."users where id IN (SELECT player_id from ".$prefix."roles where site_id=".$_SESSION["siteid"]." and todelete2!=1)))");
+					$result=mysql_query("SELECT * FROM ".$prefix."geography g1, ".$prefix."geography g2, ".$prefix."users u, ".$prefix."roles r WHERE g1.id = g2.parent AND g2.id = u.city AND u.id = player_id AND r.site_id =".$_SESSION["siteid"]." AND r.todelete2 !=1");
 					while($a=mysql_fetch_array($result)) {
 						if(encode_to_cp1251($_REQUEST["tosend2"][$a["id"]])=='on') {
 							$result2=mysql_query("SELECT * from ".$prefix."geography where parent=".$a["id"]);
@@ -108,23 +108,22 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["subscribe"]) {
 							}
 						}
 					}
+
                     foreach($sendlist as $key=>$value) {
-                    	$result=mysql_query("SELECT city from ".$prefix."users where id=".$value);
+                    	$result=mysql_query("SELECT city, em from ".$prefix."users where id=".$value);
 						$a=mysql_fetch_array($result);
 						if(!in_array($a["city"],$citieslist)) {
 							unset($sendlist[$key]);
+						}
+						else
+						{
+							$contactemail=decode($a["em"]);
+							send_mail($myname, $myemail, $contactemail, $subject, $message, true);
 						}
 					}
 				}
 
 				if(count($sendlist)>0) {
-					foreach($sendlist as $key=>$value) {
-						$contactemail='';
-						$result2=mysql_query("SELECT * FROM ".$prefix."users where id=".$value);
-						$b=mysql_fetch_array($result2);
-						$contactemail=decode($b["em"]);
-						send_mail($myname, $myemail, $contactemail, $subject, $message, true);
-					}
 					dynamic_err_one('success',"Рассылка по ".count($sendlist)." пользователям успешно проведена.");
 				}
 				else {
