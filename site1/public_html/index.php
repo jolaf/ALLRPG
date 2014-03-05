@@ -77,6 +77,11 @@ echo $content;
 $globaltimer=number_format(microtime(true)-$globaltimer,10);
 echo ('
 <!-- execution time: '.$globaltimer.'s-->');
+$logname = 'loadstat/loadstat'.date('Y-m-d',time()).'.log';
+$logfile = fopen($logname, 'a');
+fwrite($logfile, '[LOCAL TIME]: '.date('Y-m-d h:i:s',time()).' [LOAD TIME]: '.$globaltimer.' [REQUEST]: '.$_SERVER['REQUEST_URI'].' [AGENT]: '.$_SERVER['HTTP_USER_AGENT']."\r\n");
+fclose($logfile);
+
 
 # Разрываем соединение с MySQL-сервером
 stop_mysql();
