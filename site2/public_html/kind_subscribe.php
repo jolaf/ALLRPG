@@ -95,24 +95,29 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["subscribe"]) {
 						}
 					}
 				}
+				
+				$not_all_regions = encode_to_cp1251($_REQUEST["tosend2"]["allregions"])!='on';
 
-				if(encode_to_cp1251($_REQUEST["tosend2"]["allregions"])!='on') {
-					unset($citieslist);
-					$citieslist=Array();
-					$result=mysql_query("SELECT * FROM ".$prefix."geography g1, ".$prefix."geography g2, ".$prefix."users u, ".$prefix."roles r WHERE g1.id = g2.parent AND g2.id = u.city AND u.id = player_id AND r.site_id =".$_SESSION["siteid"]." AND r.todelete2 !=1");
+				if($not_all_regions) {
+					unset($region_list);
+					$region_list=Array();
+					$result=mysql_query("SELECT DISTINCT city.parent AS id 
+					FROM {$prefix}geography city, {$prefix}users u, {$prefix}roles r WHERE city.id = u.city AND u.id = player_id AND r.site_id =".$_SESSION["siteid"]." AND r.todelete2 !=1");
 					while($a=mysql_fetch_array($result)) {
 						if(encode_to_cp1251($_REQUEST["tosend2"][$a["id"]])=='on') {
-							$result2=mysql_query("SELECT * from ".$prefix."geography where parent=".$a["id"]);
-							while($b=mysql_fetch_array($result2)) {
-								$citieslist[]=$b["id"];
-							}
+							$region_list[] = $a['id'];
 						}
+					}
 					}
 
                     foreach($sendlist as $key=>$value) {
-                    	$result=mysql_query("SELECT city, em from ".$prefix."users where id=".$value);
+                    	$result=mysql_query("
+                    	SELECT city.parent AS region_id, em 
+                    	from {$prefix}users u
+                    	INNER JOIN geography city ON city.id = u.city
+                    	where u.id=$value");
 						$a=mysql_fetch_array($result);
-						if(!in_array($a["city"],$citieslist)) {
+						if($not_all_regions && !in_array($a["region_id"],$region_list)) {
 							unset($sendlist[$key]);
 						}
 						else
@@ -121,7 +126,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["subscribe"]) {
 							send_mail($myname, $myemail, $contactemail, $subject, $message, true);
 						}
 					}
-				}
+				
 
 				if(count($sendlist)>0) {
 					dynamic_err_one('success',"Рассылка по ".count($sendlist)." пользователям успешно проведена.");
