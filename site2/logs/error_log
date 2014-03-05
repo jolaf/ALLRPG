@@ -1,2 +1,0 @@
-[Fri Feb  7 15:29:36 2014] [error] [client 193.169.234.5] mod_rewrite: maximum number of internal redirects reached. Assuming configuration error. Use 'RewriteOptions MaxRedirects' to increase the limit if neccessary.
-[Fri Feb  7 15:29:40 2014] [error] [client 193.169.234.5] mod_rewrite: maximum number of internal redirects reached. Assuming configuration error. Use 'RewriteOptions MaxRedirects' to increase the limit if neccessary.

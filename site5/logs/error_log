@@ -1,8 +1,0 @@
-[Wed Feb 12 16:35:08 2014] [error] [client 193.169.234.5] mod_rewrite: maximum number of internal redirects reached. Assuming configuration error. Use 'RewriteOptions MaxRedirects' to increase the limit if neccessary.
-[Fri Feb 14 13:35:26 2014] [error] [client 193.169.234.5] mod_rewrite: maximum number of internal redirects reached. Assuming configuration error. Use 'RewriteOptions MaxRedirects' to increase the limit if neccessary.
-[Fri Feb 14 13:35:28 2014] [error] [client 193.169.234.5] mod_rewrite: maximum number of internal redirects reached. Assuming configuration error. Use 'RewriteOptions MaxRedirects' to increase the limit if neccessary.
-[Fri Feb 14 13:37:17 2014] [error] [client 193.169.234.5] mod_rewrite: maximum number of internal redirects reached. Assuming configuration error. Use 'RewriteOptions MaxRedirects' to increase the limit if neccessary.
-[Fri Feb 14 13:37:22 2014] [error] [client 193.169.234.5] mod_rewrite: maximum number of internal redirects reached. Assuming configuration error. Use 'RewriteOptions MaxRedirects' to increase the limit if neccessary.
-[Fri Feb 14 13:37:25 2014] [error] [client 193.169.234.5] mod_rewrite: maximum number of internal redirects reached. Assuming configuration error. Use 'RewriteOptions MaxRedirects' to increase the limit if neccessary.
-[Fri Feb 14 13:39:26 2014] [error] [client 193.169.234.5] mod_rewrite: maximum number of internal redirects reached. Assuming configuration error. Use 'RewriteOptions MaxRedirects' to increase the limit if neccessary.
-[Thu Feb 27 00:08:09 2014] [error] [client 65.55.24.220] mod_rewrite: maximum number of internal redirects reached. Assuming configuration error. Use 'RewriteOptions MaxRedirects' to increase the limit if neccessary.
