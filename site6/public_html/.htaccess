@@ -22,4 +22,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)/(.*)$ /%{HTTP_HOST}/index.php?kind=$1&$2 [L] 
 
-RewriteRule ^(.*)$ /%{HTTP_HOST}/ [L]
+RewriteRule ^(.*)$ /%{HTTP_HOST}/%{REQUEST_URI} [L]
