@@ -470,6 +470,8 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 			50,
 			'allinfo'
 		);
+		
+		$obj -> setDefaultSort ('date', 'desc');
 
 		// Создание схемы прав объекта
 		if(encode($_GET["history"])!=1)
