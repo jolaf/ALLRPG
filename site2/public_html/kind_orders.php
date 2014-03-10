@@ -226,6 +226,8 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 		5000,
 		'allinfo'
 	);
+	
+	$obj -> setDefaultSort ('date', 'desc');
 
 	$locatpermit=Array();
 	$locatrestrict='';
