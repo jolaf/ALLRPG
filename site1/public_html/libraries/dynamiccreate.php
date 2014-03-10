@@ -71,6 +71,11 @@ function dynamiccreate($obj) {
 			$homos3=str_ireplace(' or ',' or '.$homos,$homos3);
 			$homos3=" WHERE ".$homos.$homos3;
 		}
+		
+		if (intval($sorting) == 0)
+		{
+      $sorting = $obj -> getDefaultSort();
+		}
 
 		if($sorting!='')
 		{

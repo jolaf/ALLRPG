@@ -27,6 +27,27 @@ sort - по каким рядам таблицы выводить данные �
 		3 - какую ячейку выцепить из "родительской" таблицы и выдать в качестве результата?
 */
 
+  var $default_sort_column; // Режим сортировки «по умолчанию», если никакая сортировка не выбрана. Равен нужному значению sorting в URI
+  
+  function setDefaultSort($columnName, $ascDesc) {
+    foreach ($this -> sort[0] as $sortNumber => $sortElement)
+    {
+      if ($sortElement[0] == $columnName)
+      {
+        $columnName = $sortNumber + 1;
+        break;
+      }
+    }
+    if (strtolower($ascDesc) == 'asc')
+    {
+      $ascDesc = 0;
+    } else if (strtolower($ascDesc) == 'desc')
+    {
+      $ascDesc = 1;
+    }
+    $this -> default_sort_column = $columnName * 2 + $ascDesc - 1;
+  }
+
 	function setName($name) {
 		$this->name=$name;
 	}
@@ -157,6 +178,10 @@ sort - по каким рядам таблицы выводить данные �
 	function getElem($i) {
 		return($this->elems[$i]);
 	}
+	
+	function getDefaultSort() {
+    return $this -> default_sort_column;
+	}
 
 	function draw() {
 		require_once($GLOBALS["server_inner_path"].$GLOBALS["direct"]."/dynamiccreate.php");
@@ -174,6 +199,7 @@ sort - по каким рядам таблицы выводить данные �
 		$this->setSize($size);
 		$this->setElemPerPage($elemperpage);
 		$this->setVirtualField($virtualfield);
+		$this -> default_sort_column = 0;
 	}
 }
 
