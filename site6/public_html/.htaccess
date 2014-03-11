@@ -2,24 +2,14 @@ Options +FollowSymLinks
 RewriteEngine On
 RewriteBase /
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^site.css$ /%{HTTP_HOST}/index.php?kind=css [L]
+RewriteRule ^site.css$ index.php?kind=css [L]
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)/(.*)/(.*)/(.*)$ /%{HTTP_HOST}/index.php?kind=$1&sub=$2&id=$3&$4 [L]
+RewriteRule ^(.*)/(.*)/(.*)/(.*)$ index.php?kind=$1&sub=$2&id=$3&$4 [L]
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)/(.*)/$ /%{HTTP_HOST}/index.php?kind=$1&sub=$2 [L]
+RewriteRule ^(.*)/(.*)/(.*)$ index.php?kind=$1&sub=$2&$3 [L]
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)/(.*)/(.*)$ /%{HTTP_HOST}/index.php?kind=$1&sub=$2&$3 [L]
+RewriteRule ^(.*)/(.*)/$ index.php?kind=$1&sub=$2 [L]
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)/(.*)$ /%{HTTP_HOST}/index.php?kind=$1&$2 [L] 
+RewriteRule ^(.*)/$ index.php?kind=$1 [L]
 
 RewriteRule ^(.*)$ /%{HTTP_HOST}/%{REQUEST_URI} [L]
