@@ -543,8 +543,11 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 		if($a_id["vacancy"]!=0) {
 			$result3=mysql_query("SELECT * from ".$prefix."roleslinks where (roles LIKE '%-all".$a_id["vacancy"]."-%' OR roles LIKE '%-".$id."-%' OR roles2 LIKE '%-all".$a_id["vacancy"]."-%' OR roles2 LIKE '%-".$id."-%') and site_id=".$_SESSION["siteid"]." and content!='' and parent IN (SELECT id from ".$prefix."roleslinks WHERE vacancies LIKE '%-".$a_id["vacancy"]."-%') order by date desc");
 			while($c=mysql_fetch_array($result3)) {
-				$alllinks.='<b>';
-				$alllinks.='<a href="'.$server_absolute_path_site.'roleslinks/'.$c["id"].'/valuestype=1">Загруз</a> для ';
+			
+        $link_to_zagruz = $server_absolute_path_site.'roleslinks/'.$c["id"];
+        $zagruz_for = '';
+        $zagruz_about = '';
+        $dosee='';
 
 				unset($roles);
 				unset($roles2);
@@ -552,47 +555,55 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 				$roles2=substr($c["roles2"],1,strlen($c["roles2"])-2);
 				$roles=explode('-',$roles);
 				$roles2=explode('-',$roles2);
-				$dosee='его видят: мастера';
+
 				foreach($roles as $r) {
 					$query="";
 					if(strpos($r,'all')!==false) {
 						$result2=mysql_query("SELECT * FROM ".$prefix."rolevacancy WHERE site_id=".$_SESSION["siteid"]." and id=".str_replace('all','',$r));
 						$b=mysql_fetch_array($result2);
 						if($b["name"]!='') {
-							$alllinks.='<a href="'.$server_absolute_path_site.'roles/'.$b["id"].'/">'.$b["name"].'</a>, ';
+							$zagruz_for.='<a href="'.$server_absolute_path_site.'roles/'.$b["id"].'/">'.$b["name"].'</a>, ';
 							$query="SELECT * from ".$prefix."roles where vacancy=".$b["id"]." and site_id=".$_SESSION["siteid"];
 						}
 						elseif($r==0) {
-							$alllinks.='<i>глобального сюжета</i>, ';
+							$zagruz_for.='<i>глобального сюжета</i>, ';
 						}
 						else {
-							$alllinks.='<i>удаленной роли</i>, ';
+							$zagruz_for.='<i>удаленной роли</i>, ';
 						}
 					}
 					else {
 						$query="SELECT * from ".$prefix."roles where id=".$r." and site_id=".$_SESSION["siteid"];
 						$result2=mysql_query($query);
 						$b=mysql_fetch_array($result2);
-						$alllinks.='<a href="'.$server_absolute_path_site.'orders/'.$b["id"].'/">';
+						$zagruz_for.='<a href="'.$server_absolute_path_site.'orders/'.$b["id"].'/">';
 						if($b["sorter"]!='') {
-							$alllinks.=decode($b["sorter"]);
+							$zagruz_for.=decode($b["sorter"]);
 						}
 						else {
-							$alllinks.='<i>удаленной заявки</i>';
+							$zagruz_for.='<i>удаленной заявки</i>';
 						}
-						$alllinks.='</a>, ';
+						$zagruz_for.='</a>, ';
 					}
 					if($query!='') {
 						$result5=mysql_query($query);
 						while($e=mysql_fetch_array($result5)) {
 							if(strpos($c["roles"],'-'.$e["id"].'-')!==false) {
-								$dosee.=', <a href="'.$server_absolute_path_site.'orders/'.$e["id"].'/">'.decode($e["sorter"]).'</a>';
+                if ($dosee != '')
+                {
+                  $dosee .= ", ";
+                }
+								$dosee.='<a href="'.$server_absolute_path_site.'orders/'.$e["id"].'/">'.decode($e["sorter"]).'</a>';
 								if($b["hideother"]=='1') {
 									$dosee.=' (игрок не знает, на кого конкретно у него данный загруз)';
 								}
 							}
 							elseif(strpos($c["roles"],'-'.$r.'-')!==false) {
-								$dosee.=', <a href="'.$server_absolute_path_site.'orders/'.$e["id"].'/">'.decode($e["sorter"]).'</a>';
+							  if ($dosee != '')
+                {
+                  $dosee .= ", ";
+                }
+								$dosee.='<a href="'.$server_absolute_path_site.'orders/'.$e["id"].'/">'.decode($e["sorter"]).'</a>';
 								if($e["status"]<3) {
 									$dosee.=' (увидит, как только заявка будет принята)';
 								}
@@ -603,19 +614,20 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 						}
 					}
 				}
-				$alllinks=substr($alllinks,0,strlen($alllinks)-2).' про ';
+				
+				
 				foreach($roles2 as $r) {
 					if(strpos($r,'all')!==false) {
 						$result2=mysql_query("SELECT * FROM ".$prefix."rolevacancy WHERE site_id=".$_SESSION["siteid"]." and id=".str_replace('all','',$r));
 						$b=mysql_fetch_array($result2);
 						if($b["name"]!='') {
-							$alllinks.='<a href="'.$server_absolute_path_site.'roles/'.$b["id"].'/">'.$b["name"].'</a>, ';
+							$zagruz_about.='<a href="'.$server_absolute_path_site.'roles/'.$b["id"].'/">'.$b["name"].'</a>, ';
 						}
 						elseif($r==0) {
-							$alllinks.='<i>глобальный сюжет</i>, ';
+							$zagruz_about.='<i>глобальный сюжет</i>, ';
 						}
 						else {
-							$alllinks.='<i>удаленную роль</i>, ';
+							$zagruz_about.='<i>удаленную роль</i>, ';
 						}
 					}
 					else {
@@ -623,20 +635,27 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 						$b=mysql_fetch_array($result2);
 						$alllinks.='<a href="'.$server_absolute_path_site.'orders/'.$b["id"].'/">';
 						if($b["sorter"]!='') {
-							$alllinks.=decode($b["sorter"]);
+							$zagruz_about.=decode($b["sorter"]);
 						}
 						else {
-							$alllinks.='<i>удаленную заявку</i>';
+							$zagruz_about.='<i>удаленную заявку</i>';
 						}
-						$alllinks.='</a>, ';
+						$zagruz_about.='</a>, ';
 					}
 				}
-				$alllinks=substr($alllinks,0,strlen($alllinks)-2).' ('.$dosee.')</b><br>';
+				
 				$result2=mysql_query("SELECT * FROM ".$prefix."roleslinks WHERE id=".$c["parent"]);
 				$b=mysql_fetch_array($result2);
-				$alllinks.='<span style="font-size:70%;">сюжет «<a href="'.$server_absolute_path_site.'roleslinks/'.$b["id"].'/valuestype=0">'.decode($b["name"]).'</a>»</span><br>';
-				$alllinks.=decode($c["content"]);
-				$alllinks.='<br><br>';
+				$sujet_name = decode($b["name"]);
+				
+
+				
+				$link_text = '<b>«<a href="'.$server_absolute_path_site.'roleslinks/'.$b["id"].'/valuestype=0">' . $sujet_name . '</a>» — загруз (<a href="'.$link_to_zagruz.'/valuestype=1">изменить</a>) </b> <br> ' .
+				' <span style="font-size:70%;"> для ' . 
+				 substr($zagruz_for,0,strlen($zagruz_for)-2).' про ' . substr($zagruz_about,0,strlen($zagruz_about)-2).' (его видят: '.$dosee.')</span><br>'
+				. decode($c["content"]);
+				
+				$alllinks.=$link_text . '<br>';
 			}
 			$alllinks=substr($alllinks,0,strlen($alllinks)-8);
 		}
