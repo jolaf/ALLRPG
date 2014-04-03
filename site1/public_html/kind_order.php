@@ -168,7 +168,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 			$additional_commands.='<a href onClick="if (confirm(\'Прежде чем перейти к истории изменений заявки, не забудьте сохранить изменения! Перейти?\')) {document.location=\''.$server_absolute_path.$kind.'/'.$object.'/'.$id.'/act=view&subobj='.$subobj.'&history=1\';}">История изменений заявки</a><br>';
 
 			if($action=="comment_add" && $siteisopen) {
-				$comment_content=encode_to_cp1251($_POST["content"]);
+				$comment_content=encode($_POST["content"]);
 				if($comment_content!='') {
 					$result=mysql_query("SELECT * FROM ".$prefix."rolescomments WHERE role_id=".$id." and user_id=".$_SESSION['user_id']." and content='".$comment_content."' and date>=".(time()-3600));
 					$a = mysql_fetch_array($result);
