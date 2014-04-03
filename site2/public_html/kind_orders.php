@@ -1448,30 +1448,37 @@ body {background-color: white; background: none;}
 		else {
 			$ctrllinks.='viewdeleted_on">Посмотреть удаленные заявки';
 		}
-		$ctrllinks.='</a><br><a href="'.$server_absolute_path_site.$kind.'/action=';
+		
+
+		$ctrllinks.='</a>';
 		$result=mysql_query("SELECT signtonew,signtocomments,signtochange FROM ".$prefix."allrights2 WHERE user_id=".$_SESSION["user_sid"]." and site_id=".$_SESSION["siteid"]);
 		$a = mysql_fetch_array($result);
+		
+		$ctrllinks.= '<br>Уведомления о новых заявках: ';
 		if($a["signtonew"]=='1') {
-			$ctrllinks.='signtonew_off">Не получать уведомления о новых заявках';
+			$ctrllinks.='включены (<a href="'.$server_absolute_path_site.$kind.'/action=signtonew_off">выключить</a>)';
 		}
 		else {
-			$ctrllinks.='signtonew_on">Получать уведомления о новых заявках';
+			$ctrllinks.='отключены (<a href="'.$server_absolute_path_site.$kind.'/action=signtonew_on">включить</a>)';
 		}
-		$ctrllinks.='</a><br><a href="'.$server_absolute_path_site.$kind.'/action=';
+		$ctrllinks.='<br>Уведомления об изменениях: ';
 		if($a["signtochange"]=='1') {
-			$ctrllinks.='signtochange_off">Не получать уведомления об изменениях в заявках';
+      $ctrllinks.='включены (<a href="'.$server_absolute_path_site.$kind.'/action=signtochange_off">выключить</a>)';
 		}
 		else {
-			$ctrllinks.='signtochange_on">Получать уведомления об изменениях в заявках';
+			$ctrllinks.='отключены (<a href="'.$server_absolute_path_site.$kind.'/action=signtochange_on">включить</a>)';
 		}
-		$ctrllinks.='</a><br><a href="'.$server_absolute_path_site.$kind.'/action=';
+
+		$ctrllinks.='<br>Уведомления о комментариях: ';
+		
 		if($a["signtocomments"]=='1') {
-			$ctrllinks.='signtocomments_off">Не получать уведомления о новых комментариях';
+		  $ctrllinks.='включены (<a href="'.$server_absolute_path_site.$kind.'/action=signtocomments_off">выключить</a>)';
 		}
 		else {
-			$ctrllinks.='signtocomments_on">Получать уведомления о новых комментариях';
+			$ctrllinks.='отключены (<a href="'.$server_absolute_path_site.$kind.'/action=signtocomments_on">включить</a>)';
 		}
-		$ctrllinks.='</a><br /><br /></div>';
+
+		$ctrllinks.='<br /><br /></div>';
 
 		$additional_commands.='<a onClick="$(\'#filters_stats\').toggle();">статистика заявок</a>';
 
