@@ -1072,7 +1072,7 @@ function dynamicaction($obj) {
 						else
 						{
 							$t.=$fildsname.') VALUES (';
-							$s.="'".$temp[$fildsname]."')";
+							$s.="'".mysql_real_escape_string($temp[$fildsname])."')";
 							if($filds[$i]->getType()!="timestamp")
 							{
 								$q2.=$fildsname."='".$temp[$fildsname]."'";
@@ -1300,7 +1300,7 @@ function dynamicaction($obj) {
 							{
 								if(!($filds[$i]->getType()=="password" && $temp[$filds[$i]->getName()]==''))
 								{
-									$query.=$filds[$i]->getName()."='".$temp[$filds[$i]->getName()]."',";
+									$query.=$filds[$i]->getName()."='".mysql_real_escape_string($temp[$filds[$i]->getName()])."',";
 									$j++;
 								}
 							}
@@ -1308,7 +1308,7 @@ function dynamicaction($obj) {
 							{
 								if(!($filds[$i]->getType()=="password" && $temp[$filds[$i]->getName()]==''))
 								{
-									$query.=$filds[$i]->getName()."='".$temp[$filds[$i]->getName()]."' WHERE id=".$id;
+									$query.=$filds[$i]->getName()."='".mysql_real_escape_string($temp[$filds[$i]->getName()])."' WHERE id=".$id;
 									$j++;
 								}
 							}
