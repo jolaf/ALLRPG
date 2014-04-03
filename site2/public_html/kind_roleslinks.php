@@ -204,7 +204,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["roleslinks"]) {
 
 	$obj_16=createElem(Array(
 			'name'	=>	"notready",
-			'sname'	=>	"Загруз не готов",
+			'sname'	=>	"не готов",
 			'type'	=>	"checkbox",
 			'help'	=>	'неготовый загруз вообще не показывается игрокам.',
 			'read'	=>	10,
@@ -317,7 +317,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["roleslinks"]) {
 		}
 		$fromwhomtowhomtext=substr($fromwhomtowhomtext,0,strlen($fromwhomtowhomtext)-2).'</b>';
 		if($a["notready"]=='1') {
-			$fromwhomtowhomtext.='; <font color="red">загруз не готов</font>';
+			$fromwhomtowhomtext.='; <font color="red">не готов</font>';
 		}
 		$fromwhomtowhom[]=Array($a["id"],$fromwhomtowhomtext);
 	}
