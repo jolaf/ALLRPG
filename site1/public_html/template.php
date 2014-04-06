@@ -9,9 +9,8 @@ $content='<!doctype html>
 <title>Ролевые игры, хостинг и система заявок</title>
 <link rel="stylesheet" type="text/css" href="'.$server_absolute_path.$direct.'/jquery/plugins/jquery-ui-1.10.0.custom/css/smoothness/jquery-ui-1.10.0.custom.min.css">
 <script type="text/javascript" src="http://yandex.st/jquery/1.9.0/jquery.min.js"></script>
-<script type="text/javascript" src="'.$server_absolute_path.$direct.'/jquery/plugins/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js"></script>
-<script type="text/javascript" src="'.$server_absolute_path.$direct.'/jquery/plugins/jquery-ui-1.10.0.custom/js/jquery-ui-i18n.js"></script>
-<script type="text/javascript" src="'.$server_absolute_path.$direct.'/jquery/plugins/jquery-ui-1.10.0.custom/js/jquery.ui.datepicker-ru.js"></script>
+<script type="text/javascript" src="http://yandex.st/jquery-ui/1.10.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://yandex.st/jquery-ui/1.10.0/i18n/jquery.ui.datepicker-ru.min.js"></script>
 <script type="text/javascript" src="'.$server_absolute_path.$direct.'/jquery/plugins/noty/jquery.noty.js"></script>
 <script type="text/javascript" src="'.$server_absolute_path.$direct.'/jquery/plugins/noty/layouts/center.js"></script>
 <script type="text/javascript" src="'.$server_absolute_path.$direct.'/jquery/plugins/noty/layouts/bottomRight.js"></script>
