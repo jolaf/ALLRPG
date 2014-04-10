@@ -441,13 +441,7 @@ for($i=0;$i<count($allgames);$i++) {
 		$a["datefinish"]=$a["datestart"];
 	}
 
-	$content2.='<tr';
-	if($stringnum%2==1 || $_SESSION["calendarstyle"]) {
-		$content2.=' class="string1';
-	}
-	else {
-		$content2.=' class="string2';
-	}
+	$content2.='<tr class="';
 	if($a["area"]!='') {
 		$result3=mysql_query("SELECT * FROM ".$prefix."played where game=".$a["id"]." and user_id=".$_SESSION["user_id"]);
 		$c = mysql_fetch_array($result3);

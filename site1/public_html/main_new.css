@@ -72,7 +72,6 @@ button:focus,
 .ui-button, .ui-button-text, .ui-button-text-only {
 	font-family: Segoe UI !important;
 	font-size: 130% !important;
-	text-transform: uppercase;
 }
 .ui-button-text, .ui-button-text-only {
 	padding: .4em 1em !important;
@@ -262,9 +261,8 @@ table.maininfotable td, table.menutable td {
 }
 table.maininfotable tr.menu, table.menutable tr.menu, div.news_header {
 	font-weight: bold;
-	background-color: rgb(79,206,215);
+	background-color: rgb(79,206,215) !important;
 	color: white;
-	text-transform: uppercase;
 	text-align: left;
 	font-size: 130%;
 }
@@ -281,10 +279,10 @@ table.maininfotable tr.menu a:hover, table.menutable tr.menu a:hover {
 table.maininfotable td.small {
 	width: 20px;
 }
-table.menutable tr.string1, table.maininfotable tr.string2 {
+table.menutable tr:nth-child(even), table.maininfotable tr:nth-child(odd) {
 	background-color: #ffffff;
 }
-table.menutable tr.string2, table.maininfotable tr.string1 {
+table.menutable tr:nth-child(odd), table.maininfotable tr:nth-child(even) {
 	background-color: rgb(226,244,254);
 }
 table.maininfotable td.type1delete {
@@ -689,7 +687,6 @@ div.pagetitle {
 	font-size: 200%;
 	color: white;
 	line-height: 100%;
-	text-transform: uppercase;
 }
 div.pagetitle a {
 	color: white;

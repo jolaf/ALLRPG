@@ -1173,14 +1173,7 @@ function dynamiccreate($obj) {
 					$stringnum=1;
 					while($a = mysql_fetch_array($result))
 					{
-						$content.='<tr';
-						if($stringnum%2==1) {
-							$content.=' class="string1"';
-						}
-						else {
-							$content.=' class="string2"';
-						}
-						$content.='>';
+						$content.='<tr>';
 						for($i=0;$i<count($show);$i++)
 						{
 							$content.='<td><a href="'.$curdir.$kind.'/'.$obj->getName().'/'.$a["id"].'/act=view">';
