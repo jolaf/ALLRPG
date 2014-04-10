@@ -1438,7 +1438,7 @@ body {background-color: white; background: none;}
 		$obj_html.='</td></tr></table>';
 	}
 	if(($act=='' && $id=='') || ($id!='' && $actiontype!='' && !$trouble)) {
-		$additional_commands.='<a onClick="$(\'#filters_settings\').toggle();">личные настройки</a>';
+		$additional_commands.='<a onClick="$(\'#filters_settings\').toggle();">Настройки уведомлений</a>';
 		$ctrllinks.='
 <div id="filters_settings">';
 		$ctrllinks.='<a href="'.$server_absolute_path_site.$kind.'/action=';
@@ -1480,11 +1480,11 @@ body {background-color: white; background: none;}
 
 		$ctrllinks.='<br /><br /></div>';
 
-		$additional_commands.='<a onClick="$(\'#filters_stats\').toggle();">статистика заявок</a>';
+		$additional_commands.='<a onClick="$(\'#filters_stats\').toggle();">Статистика</a>';
 
 		$ctrllinks.='
 <div id="filters_stats">
-<center><table><tr valign=top><td>';
+<center><table><tr><td colspan="2" style="text-align:center"><a href="/gamereport/">Отчет об игроках</a> более подробен и точен.</td></tr><tr valign=top><td>';
 
 		$result=mysql_query("SELECT COUNT(id) FROM ".$prefix."roles WHERE status!=4 and todelete2!='1' and site_id=".$_SESSION["siteid"]);
 		$a = mysql_fetch_array($result);

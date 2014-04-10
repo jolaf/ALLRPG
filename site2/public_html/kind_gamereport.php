@@ -97,7 +97,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["gamereport"]) {
     
 
 	// Передача целиком проработанного maincontent'а данного kind'а основному скрипту
-	$pagetitle=h1line('Дерево локаций / команд',$curdir.$kind.'/');
+	$pagetitle=h1line('Отчет об игроках',$curdir.$kind.'/');
 	$content2.='<div class="narrow">'.$obj_html.'</div>';
 }
 ?>
