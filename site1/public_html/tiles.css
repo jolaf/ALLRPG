@@ -33,7 +33,6 @@ nav li>a, nav li.tile_myorders2 > div, nav li.tile_mysitesorders2 > div {
 	padding: 0px;
 	text-align: left;
 	text-decoration: none;
-	text-transform: uppercase;
 	color: white;
 	margin-right: 0px;
 	margin-bottom: 0px;
@@ -551,7 +550,6 @@ div.menu_wrapper .menu_block .tile.close a {
 	text-align: center;
 	vertical-align: middle;
 	text-decoration: none;
-	text-transform: uppercase;
 	color: white;
 	margin-right: 0px;
 	margin-bottom: 0px;

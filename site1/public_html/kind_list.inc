@@ -182,6 +182,7 @@ elseif((($getsite>0 || encode($_COOKIE["siteid"])>0) && $getsite!='exit') && $_S
 				'roleslinks'=>'Сюжеты и загрузы',
 				'roles'=>'Сетка ролей',
 				'locations'=>'Локации<br>(команды)',
+				'gamereport' => 'Отчет по игрокам',
 				'docs'=>'Генератор аусвайсов',
 				'export'=>'Экспорт',
 			);
@@ -212,6 +213,7 @@ elseif((($getsite>0 || encode($_COOKIE["siteid"])>0) && $getsite!='exit') && $_S
 				unset($site_menus['docs']);
 				unset($site_menus['export']);
 				unset($site_menus['block_3']);
+				unset($site_menus['reports']);
 			}
 		}
 		if($rights[2]) {
