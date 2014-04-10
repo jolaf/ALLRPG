@@ -1,4 +1,22 @@
 ﻿<?php
+function trim_text($input, $length, $ellipses = true) {
+    //no need to trim, already shorter than trim length
+    if (strlen($input) <= $length) {
+        return $input;
+    }
+  
+    //find last space within length
+    $last_space = strrpos(substr($input, 0, $length), ' ');
+    $trimmed_text = substr($input, 0, $last_space);
+  
+    //add ellipses (...)
+    if ($ellipses) {
+        $trimmed_text .= '...';
+    }
+  
+    return $trimmed_text;
+}
+
 if($_SESSION["user_id"]!='' && $workrights["site"]["roleslinks"]) {
 	// сюжеты и загрузы
 
@@ -233,6 +251,32 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["roleslinks"]) {
 		)
 	);
 	$obj->setElem2($obj_12);
+	
+	if ($_SESSION["siteid"] == 592 || $_SESSION["siteid"] == 596)
+	{
+
+	$obj->setElem(createElem(Array(
+      'name'	=>	"todo",
+			'sname'	=>	"Что осталось сделать",
+			'help'	=>	'ЭКСПЕРИМЕНТАЛЬНОЕ ПОЛЕ. Исчезнет в любой момент. Добавляйте сюда задачи для себя и других мастеров, или оставьте пустым, если все сделано',
+			'type'	=>	"textarea",
+			'read'	=>	10,
+			'write'	=>	100,
+			'height'	=>	200,
+		)
+	));
+	
+		$obj->setElem2(createElem(Array(
+      'name'	=>	"todo",
+			'sname'	=>	"Что осталось сделать",
+			'help'	=>	'ЭКСПЕРИМЕНТАЛЬНОЕ ПОЛЕ. Исчезнет в любой момент.  Добавляйте сюда задачи для себя и других мастеров, или оставьте пустым, если все сделано',
+			'type'	=>	"textarea",
+			'read'	=>	10,
+			'write'	=>	100,
+			'height'	=>	200,
+		)
+	));
+	}
 
 	// Исполнение dynamicaction, если необходимо
 	if($action=="dynamicaction")
@@ -318,6 +362,11 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["roleslinks"]) {
 		$fromwhomtowhomtext=substr($fromwhomtowhomtext,0,strlen($fromwhomtowhomtext)-2).'</b>';
 		if($a["notready"]=='1') {
 			$fromwhomtowhomtext.='; <font color="red">не готов</font>';
+		}
+				if (trim($a["todo"]))
+		{
+      $todo = trim_text ($a["todo"], 30);
+      $fromwhomtowhomtext.= "; <font color=\"orange\">TODO</font>: <span title=\"{$a['todo']}\">$todo</span>";
 		}
 		$fromwhomtowhom[]=Array($a["id"],$fromwhomtowhomtext);
 	}
