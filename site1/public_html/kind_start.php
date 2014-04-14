@@ -212,12 +212,7 @@ if($_SESSION["user_id"]!='') {
 
 	$content2.='<div class="tile_logged_section5">';
 
-	$counter=0;
-	$result=mysql_query("SELECT COUNT(id) from ".$prefix."blog_pms where user_id=".$_SESSION["user_id"]." and pmread='0'");
-	$a=mysql_fetch_array($result);
-	$counter=$a[0];
-
-	$content2.='<li class="tile_messages black"><a href="'.$server_absolute_path.'inbox/"><div class="counter" title="новые"><div>'.$counter.'</div></div><div class="text">Сообщения</div></a></li>';
+	$content2.='<li class="tile_messages black"></li>';
 	$content2.='<li class="tile_neworders blue"><a href="'.$server_absolute_path_site.'hosting2/"><div class="text">Создать<br>систему<br>заявок</div></a></li>';
 	$content2.='<li class="tile_neworder black"><a href="'.$server_absolute_path.'order/order/act=add"><div class="text">Подать заявку</div></a></li>';
 
