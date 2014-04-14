@@ -366,7 +366,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["roleslinks"]) {
 				if (trim($a["todo"]))
 		{
       $todo = trim_text ($a["todo"], 30);
-      $fromwhomtowhomtext.= "; <font color=\"orange\">TODO</font>: <span title=\"{$a['todo']}\">$todo</span>";
+      $fromwhomtowhomtext.= "; <span title=\"{$a['todo']}\"><font color=\"orange\">TODO</font>: $todo</span>";
 		}
 		$fromwhomtowhom[]=Array($a["id"],$fromwhomtowhomtext);
 	}
