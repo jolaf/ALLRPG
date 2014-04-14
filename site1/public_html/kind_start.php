@@ -28,7 +28,7 @@ if($_SESSION["user_id"]!='') {
 		$content2.=$server_absolute_path.$uploads[4]['path'].$a["photo"];
 	}
 	$content2.='" class="avatar"></div>
-<div class="text">ПРИВЕТ,<br><u>';
+<div class="text">Привет,<br><u>';
 	if($a["nick"]!='') {
 		$content2.=$a["nick"];
 	}
@@ -46,7 +46,7 @@ if($_SESSION["user_id"]!='') {
 	}
 	$content2.='</u></div></a></li>';
 
-	$content2.='<li class="tile_logout blue"><a href="?action=logout"><div class="text">ВЫЙТИ</div></a></li>';
+	$content2.='<li class="tile_logout blue"><a href="?action=logout"><div class="text">Выйти</div></a></li>';
 
 	$content2.='</div>';
 
@@ -143,9 +143,9 @@ if($_SESSION["user_id"]!='') {
 		}
 	}
 	if($counter>0) {
-		$myorders2='<a href="'.$server_absolute_path.'order/"><h3>ВСЕ МОИ ЗАЯВКИ</h3></a><a href="'.$server_absolute_path.'order/">Перейти</a><br><br><h3>ИЗМЕНЕННЫЕ ЗАЯВКИ</h3>'.$myorders2;
+		$myorders2='<a href="'.$server_absolute_path.'order/"><h3>Все мои заявки на игры</h3></a><a href="'.$server_absolute_path.'order/">Перейти</a><br><br><h3>Измененные заявки</h3>'.$myorders2;
 	}
-	$content2.='<li class="tile_myorders blue"><a '.($counter>0?'onClick="$(\'.tile_myorders\').css(\'display\',\'none\');$(\'.tile_myorders2\').css(\'display\',\'block\');"':'href="'.$server_absolute_path.'order/order/page=0&sorting=10"').'><div class="counter" title="измененные"><div>'.$counter.'</div></div><div class="text">МОИ ЗАЯВКИ</div></a></li>';
+	$content2.='<li class="tile_myorders blue"><a '.($counter>0?'onClick="$(\'.tile_myorders\').css(\'display\',\'none\');$(\'.tile_myorders2\').css(\'display\',\'block\');"':'href="'.$server_absolute_path.'order/order/page=0&sorting=10"').'><div class="counter" title="измененные"><div>'.$counter.'</div></div><div class="text">Мои заявки</div></a></li>';
 	if($counter>0) {
 		$content2.='<li class="tile_myorders2 blue"><div><div>'.$myorders2.'</div></div></li>';
 	}
@@ -199,14 +199,14 @@ if($_SESSION["user_id"]!='') {
 
 	$content2.='<div class="tile_logged_section3">';
 
-	$content2.='<li class="tile_calendar blue"><a href="'.$server_absolute_path_calendar.'"><div class="text">РОЛЕВОЙ КАЛЕНДАРЬ</div></a></li>';
+	$content2.='<li class="tile_calendar blue"><a href="'.$server_absolute_path_calendar.'"><div class="text">Ролевой календарь</div></a></li>';
 
 	$content2.='</div>';
 
 	$content2.='<div class="tile_logged_section4">';
 
-	$content2.='<li class="tile_support blue"><a href="'.$server_absolute_path.'help/"><div class="text">ПОДДЕРЖКА</div></a></li>';
-	$content2.='<li class="tile_info black"><a href="'.$server_absolute_path_info.'"><div class="text">ИНФОТЕКА</div></a></li>';
+	$content2.='<li class="tile_support blue"><a href="'.$server_absolute_path.'help/"><div class="text">Поддержка</div></a></li>';
+	$content2.='<li class="tile_info black"><a href="'.$server_absolute_path_info.'"><div class="text">Инфотека</div></a></li>';
 
 	$content2.='</div>';
 
@@ -217,9 +217,9 @@ if($_SESSION["user_id"]!='') {
 	$a=mysql_fetch_array($result);
 	$counter=$a[0];
 
-	$content2.='<li class="tile_messages black"><a href="'.$server_absolute_path.'inbox/"><div class="counter" title="новые"><div>'.$counter.'</div></div><div class="text">СООБЩЕНИЯ</div></a></li>';
-	$content2.='<li class="tile_neworders blue"><a href="'.$server_absolute_path_site.'hosting2/"><div class="text">СОЗДАТЬ<br>СИСТЕМУ<br>ЗАЯВОК</div></a></li>';
-	$content2.='<li class="tile_neworder black"><a href="'.$server_absolute_path.'order/order/act=add"><div class="text">ПОДАТЬ ЗАЯВКУ</div></a></li>';
+	$content2.='<li class="tile_messages black"><a href="'.$server_absolute_path.'inbox/"><div class="counter" title="новые"><div>'.$counter.'</div></div><div class="text">Сообщения</div></a></li>';
+	$content2.='<li class="tile_neworders blue"><a href="'.$server_absolute_path_site.'hosting2/"><div class="text">Создать<br>систему<br>заявок</div></a></li>';
+	$content2.='<li class="tile_neworder black"><a href="'.$server_absolute_path.'order/order/act=add"><div class="text">Подать заявку</div></a></li>';
 
 	$content2.='</div>';
 
@@ -230,7 +230,7 @@ else {
 
 	$content2.='<div class="tile_notlogged_section1">';
 
-	$content2.='<li class="tile_enter blue" id="tile_enter"><a><div class="text">ВОЙТИ</div>
+	$content2.='<li class="tile_enter blue" id="tile_enter"><a><div class="text">Войти</div>
 <div id="login_choice">
 <form action="'.$curdir.'" method="post" enctype="multipart/form-data" id="login_form">
 <input type="hidden" name="object" value="'.$object.'">
@@ -249,7 +249,7 @@ else {
 	$content2.='
 <input type="text" name="login" id="login" placehold="Логин" tabindex="1"><br>
 <input type="password" name="pass" id="pass" placehold="Пароль" tabindex="2"><br>
-<button class="main" id="btn_login" tabindex="3">войти</button><button class="nonimportant" id="btn_remind">забыл</button>
+<button class="main" id="btn_login" tabindex="3">Войти</button><button class="nonimportant" id="btn_remind">Забыл</button>
 </form>
 </div>
 <div id="login_remind">
@@ -260,27 +260,27 @@ else {
 </form>
 </div>
 </a></li>';
-	$content2.='<li class="tile_register black"><a href="'.$server_absolute_path.'register/"><div class="text">РЕГИСТРАЦИЯ</div></a></li>';
+	$content2.='<li class="tile_register black"><a href="'.$server_absolute_path.'register/"><div class="text">Регистрация</div></a></li>';
 
 	$content2.='</div>';
 
 	$content2.='<div class="tile_notlogged_section2">';
 
-	$content2.='<li class="tile_neworder_notlogged black"><a href="'.$server_absolute_path.'order/order/act=add"><div class="text">ПОДАТЬ ЗАЯВКУ</div></a></li>';
-	$content2.='<li class="tile_neworders_notlogged blue"><a href="'.$server_absolute_path_site.'hosting2/"><div class="text">СОЗДАТЬ<br>СИСТЕМУ<br>ЗАЯВОК</div></a></li>';
+	$content2.='<li class="tile_neworder_notlogged black"><a href="'.$server_absolute_path.'order/order/act=add"><div class="text">Подать заявку</div></a></li>';
+	$content2.='<li class="tile_neworders_notlogged blue"><a href="'.$server_absolute_path_site.'hosting2/"><div class="text">Создать<br>систему<br>заявок</div></a></li>';
 
 	$content2.='</div>';
 
 	$content2.='<div class="tile_notlogged_section3">';
 
-	$content2.='<li class="tile_calendar blue"><a href="'.$server_absolute_path_calendar.'"><div class="text">РОЛЕВОЙ КАЛЕНДАРЬ</div></a></li>';
+	$content2.='<li class="tile_calendar blue"><a href="'.$server_absolute_path_calendar.'"><div class="text">Ролевой календарь</div></a></li>';
 
 	$content2.='</div>';
 
 	$content2.='<div class="tile_notlogged_section4">';
 
-	$content2.='<li class="tile_support black"><a href="'.$server_absolute_path.'help/"><div class="text">ПОДДЕРЖКА</div></a></li>';
-	$content2.='<li class="tile_info blue"><a href="'.$server_absolute_path_info.'"><div class="text">ИНФОТЕКА</div></a></li>';
+	$content2.='<li class="tile_support black"><a href="'.$server_absolute_path.'help/"><div class="text">Поддержка</div></a></li>';
+	$content2.='<li class="tile_info blue"><a href="'.$server_absolute_path_info.'"><div class="text">Инфотека</div></a></li>';
 
 	$content2.='</div>';
 }
