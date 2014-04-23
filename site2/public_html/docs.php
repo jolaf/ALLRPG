@@ -1,10 +1,7 @@
 ﻿<?php
-if(file_exists('../allrpg.info/db.inc')) {
-	$path='../allrpg.info/';
-}
-else {
-	$path='../all-main/';
-}
+
+	$path='../../site1/public_html/';
+
 include_once($path.'db.inc');
 include_once($path.'classes_objects_allrpg.php');
 include_once($path.$direct.'/classes/classes_objects.php');
