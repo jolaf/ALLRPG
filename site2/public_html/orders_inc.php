@@ -19,7 +19,7 @@
 					return $line;
 				}
 
-				$result=mysql_query("SELECT * from ".$prefix."roles where site_id=".$_SESSION["siteid"]." and team='0' and todelete2!=1 order by status asc");
+				$result=mysql_query("SELECT * from ".$prefix."roles where site_id=".$_SESSION["siteid"]." and team='0' and todelete2!=1 and todelete!=1 order by status asc");
 				$rolefields=virtual_structure("SELECT * from ".$prefix."rolefields where site_id=".$_SESSION["siteid"]." and team='0' order by rolecode","allinfo","role");
 
 				$header.="Взнос"."\t"."Взнос сдан"."\t"."Прогруз"."\t"."Локация"."\t"."Роль"."\t"."Статус"."\t"."ИНП"."\t"."Ф.И.О."."\t"."Никнейм"."\t"."Пол"."\t"."Дата рождения"."\t"."Медицинские противопоказания"."\t"."E-mail"."\t"."E-mail 2"."\t"."ICQ"."\t"."Телефон";
