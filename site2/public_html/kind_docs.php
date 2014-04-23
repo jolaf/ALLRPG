@@ -121,7 +121,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["docs"]) {
 </select>
 </div>
 <div class="clear"></div>
-<br>
+<label for="pagebreak">Каждый аусвайс/загруз на своей странице</label><input type="checkbox" name="pagebreak" id="pagebreak" class="inputcheckbox" checked>
 <center><button class="main">Сгенерировать аусвайсы</button></center></form></div></center>
 </div>';
 }

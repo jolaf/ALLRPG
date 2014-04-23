@@ -13,6 +13,7 @@ if($dynrequest==1) {
 }
 
 if(isset($_REQUEST["roles"])) {
+  $pagebreak = $_POST['pagebreak'] ? 'page-break-after:always;' : 'float: left;';
 	$roles=Array();
 	$result=mysql_query("SELECT * FROM ".$prefix."roles where site_id=".$_SESSION["siteid"]." order by team, sorter");
 	while($a=mysql_fetch_array($result)) {
@@ -22,7 +23,7 @@ if(isset($_REQUEST["roles"])) {
 	}
 	$result=mysql_query("SELECT * FROM ".$prefix."sites where id=".$_SESSION["siteid"]);
 	$a=mysql_fetch_array($result);
-	$docs='<div style="float: left; margin-right: 10px;">';
+	$docs="<div style=\"margin-right: 10px;$pagebreak\">";
 	if(encode($_POST["doc"])==1) {
 		$docs.=decode($a["docs"]);
 	}
