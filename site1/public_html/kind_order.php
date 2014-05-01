@@ -773,7 +773,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 			$result=mysql_query("SELECT * from ".$prefix."roles where id=".$id." and site_id=".$subobj);
 			$a=mysql_fetch_array($result);
 			if($a["vacancy"]!=0) {
-				$result3=mysql_query("SELECT * from ".$prefix."roleslinks where (roles LIKE '%-all".$a["vacancy"]."-%' OR roles LIKE '%-".$a["id"]."-%') and content!='' and site_id=".$subobj." and notready!='1' order by date desc");
+				$result3=mysql_query("SELECT * from ".$prefix."roleslinks where (roles LIKE '%-all".$a["vacancy"]."-%' OR roles LIKE '%-".$a["id"]."-%') and content!='' and site_id=".$subobj." and notready!='1' order by date ASC");
 				while($c=mysql_fetch_array($result3)) {
 					if(strpos($c["roles"],'-'.$id.'-')!==false || ($a["status"]==3 && strpos($c["roles"],'-all'.$a["vacancy"].'-')!==false)) {
 						$alllinks.='<b>';

@@ -541,7 +541,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 
 	if($id!='') {
 		if($a_id["vacancy"]!=0) {
-			$result3=mysql_query("SELECT * from ".$prefix."roleslinks where (roles LIKE '%-all".$a_id["vacancy"]."-%' OR roles LIKE '%-".$id."-%' OR roles2 LIKE '%-all".$a_id["vacancy"]."-%' OR roles2 LIKE '%-".$id."-%') and site_id=".$_SESSION["siteid"]." and content!='' and parent IN (SELECT id from ".$prefix."roleslinks WHERE vacancies LIKE '%-".$a_id["vacancy"]."-%') order by date desc");
+			$result3=mysql_query("SELECT * from ".$prefix."roleslinks where (roles LIKE '%-all".$a_id["vacancy"]."-%' OR roles LIKE '%-".$id."-%' OR roles2 LIKE '%-all".$a_id["vacancy"]."-%' OR roles2 LIKE '%-".$id."-%') and site_id=".$_SESSION["siteid"]." and content!='' and parent IN (SELECT id from ".$prefix."roleslinks WHERE vacancies LIKE '%-".$a_id["vacancy"]."-%') order by date ASC");
 			while($c=mysql_fetch_array($result3)) {
 			
         $link_to_zagruz = $server_absolute_path_site.'roleslinks/'.$c["id"];
