@@ -325,6 +325,8 @@ class netBaseElem {
 	var $virtual; //виртуально это поле или нет (true|false)
 	var $linkatbegin; //html перед вставлением value данного элемента (для создания ссылок)
 	var $linkatend; //html после вставления value данного элемента (для создания ссылок)
+	
+	var $valueFunctor; //lamda, которая создает value из строки и имени
 
 	function setVal($a,$post,$linenum) {
 		$value='';
@@ -339,8 +341,9 @@ class netBaseElem {
 				$value=$_POST[$name];
 			}
 		}
-		elseif($a[$name]!='') {
-			$value=decode($a[$name]);
+		else {
+      $func = $this -> valueFunctor;
+			$value= $func($this, $a);
 		}
 		$this->setValue($value);
 	}
@@ -480,6 +483,10 @@ class netBaseElem {
 	function getLinkAtEnd() {
 		return($this->linkatend);
 	}
+	
+	function isEmpty(){
+    return $this->getVal()=='' || ($this->getType()=="multiselect" && ($this->getVal()=='-' || $v->getVal()=='--')) || ($this->getType()=="select" && $v->getVal()==0)
+	}
 
 	function netBaseElem($params) {
 		$this->setName($params["name"]);
@@ -496,6 +503,16 @@ class netBaseElem {
 		$this->setVirtual($params["virtual"]);
 		$this->setLinkAtBegin($params["linkatbegin"]);
 		$this->setLinkAtEnd($params["linkatend"]);
+		if (array_key_exists ('valueExtractor', $params))
+		{
+      $this -> valueFunctor = $params ['valueExtractor'];
+		}
+		else {
+      $this -> valueFunctor = function ($obj, $row)
+      {
+        return decode ($row [$obj -> name]);
+      };
+    }
 	}
 
 	function draw() {

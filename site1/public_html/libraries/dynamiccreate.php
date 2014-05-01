@@ -645,6 +645,10 @@ function dynamiccreate($obj) {
 				{
 					$can="";
 				}
+				
+				 $field_name = $v->getName();
+				
+				$is_empty = $v -> isEmpty();
 
 				if($trouble && $can=="write")
 				{
@@ -654,7 +658,10 @@ function dynamiccreate($obj) {
 				{
 					$v->setVal($a);
 				}
-				if($can && (!($can=="read" && ($v->getVal()=='' || ($v->getType()=="multiselect" && ($v->getVal()=='-' || $v->getVal()=='--')) || ($v->getType()=="select" && $v->getVal()==0))) || ($v->getType()=="h1" && ($can=="read" || $can=="write"))) && !(($v->getType()=="select" || $v->getType()=="multiselect") && count($v->getValues())==0 && $v->getMustBe()==false))
+				
+				$empty_readonly = ($can=="read" && $is_empty);
+				
+				if($can && (!$empty_readonly || ($v->getType()=="h1")) && !($v -> isAnySelect() && count($v->getValues())==0 && $v->getMustBe()==false))
 				{
 					if($v->getType()!="hidden" && $v->getType()!="timestamp" && $v->getType()!="h1") {
 						$content.='<div class="fieldname" id="name_'.$v->getName().'" tabindex="'.$fieldnum.'">'.$v->getSname().'</div>';
