@@ -565,99 +565,106 @@ function createElem($params) {
 	global
 		$server_inner_path,
 		$direct;
+		
+  $type = $params["type"];
 
-	if($params["type"]=="multiselect")
+	if($type=="multiselect")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_multiselect.php");
 		return new netMultiselect($params);
 	}
-	elseif($params["type"]=="checkbox")
+	elseif($type=="checkbox")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_checkbox.php");
 		return new netCheckbox($params);
 	}
-	elseif($params["type"]=="login" || $params["type"]=="text" || $params["type"]=="email")
+	elseif($type=="login" || $type=="text" || $type=="email")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_text_login_email.php");
-		if($params["type"]=="login")
+		if($type=="login")
 		{
 			return new netLogin($params);
 		}
-		elseif($params["type"]=="text")
+		elseif($type=="text")
 		{
 			return new netText($params);
 		}
-		elseif($params["type"]=="email")
+		elseif($type=="email")
 		{
 			return new netEmail($params);
 		}
 	}
-	elseif($params["type"]=="password" || $params["type"]=="password2")
+	elseif($type=="password" || $type=="password2")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_password.php");
-		if($params["type"]=="password")
+		if($type=="password")
 		{
 			return new netPassword($params);
 		}
-		elseif($params["type"]=="password2")
+		elseif($type=="password2")
 		{
 			return new netPassword2($params);
 		}
 	}
-	elseif($params["type"]=="number")
+	elseif($type=="number")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_number.php");
 		return new netNumber($params);
 	}
-	elseif($params["type"]=="select")
+	elseif($type=="select")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_select.php");
 		return new netSelect($params);
 	}
-	elseif($params["type"]=="file")
+	elseif($type=="file")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_file.php");
 		return new netFile($params);
 	}
-	elseif($params["type"]=="sarissa")
+	elseif($type=="sarissa")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_sarissa.php");
 		return new netSarissa($params);
 	}
-	elseif($params["type"]=="calendar")
+	elseif($type=="calendar")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_calendar.php");
 		return new netCalendar($params);
 	}
-	elseif($params["type"]=="textarea")
+	elseif($type=="textarea")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_textarea.php");
 		return new netTextarea($params);
 	}
-	elseif($params["type"]=="colorpicker")
+	elseif($type=="colorpicker")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_colorpicker.php");
 		return new netColorpicker($params);
 	}
-	elseif($params["type"]=="wysiwyg")
+	elseif($type=="wysiwyg")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_elem_wysiwyg.php");
 		return new netWysiwyg($params);
 	}
-	elseif($params["type"]=="timestamp")
+	elseif($type=="timestamp")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_objects.php");
 		return new netTimestamp($params);
 	}
-	elseif($params["type"]=="h1")
+	elseif($type=="h1")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_objects.php");
 		return new netH1($params);
 	}
-	elseif($params["type"]=="hidden")
+	elseif($type=="hidden")
 	{
 		require_once($server_inner_path.$direct."/classes/classes_objects.php");
 		return new netHidden($params);
+	}
+	elseif ($type == 'uri')
+	{
+    require_once($server_inner_path.$direct."/classes/classes_elem_uri.php");
+    return new netTextUri($params);
 	}
 }
 
