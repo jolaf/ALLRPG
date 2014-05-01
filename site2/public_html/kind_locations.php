@@ -103,6 +103,16 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["locations"]) {
 		)
 	);
 	$obj->setElem($obj_6);
+	
+	$obj -> setElem ( createElem( array(
+    'name'    => 'url',
+    'sname'   => 'Ссылка на сетку ролей',
+    'type'    => 'text',
+    'help'    => '',
+    'default' => 'http://www.allrpg.info/gameorders.php?game=592&locat=4444',
+    'read'    => 10,
+    'write'   => 100000
+	)));
 
 	$obj_3=createElem(Array(
 			'name'	=>	"site_id",
