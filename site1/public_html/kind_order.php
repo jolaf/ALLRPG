@@ -29,6 +29,9 @@ elseif($act!="add") {
 elseif($act=="add" && $subobj!='') {
 	redirect($server_absolute_path.'register/redirectobj=order&redirectid='.$subobj);
 }
+
+$user=getuser($_SESSION["user_id"]);
+
 if($_SESSION["user_id"]!="" || $act=="add") {
 	//мои заявки
 
@@ -627,6 +630,15 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 					'read'	=>	1,
 					'write'	=>	100000,
 			);
+			
+			$mainfields[]=Array(
+					'name'	=>	"sid",
+					'sname'	=>	"ИНП",
+					'type'	=>	"text",
+					'default'	=>	$user['sid'],
+					'read'	=>	1,
+					'write'	=>	100000,
+			);
 
 			$mainfields[]=Array(
 					'name'	=>	"team",
@@ -1010,7 +1022,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 
 							// отправляем уведомления мастерам
 							require_once($server_inner_path.$direct."/classes/base_mails.php");
-							$user=getuser($_SESSION["user_id"]);
+							
 
 							$myname=usname($user);
 							$myemail=decode($user["em"]);
