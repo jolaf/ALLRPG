@@ -537,8 +537,8 @@
 				header("Pragma: no-cache");
 				header("Expires: 0");
 
-				$header = iconv("UTF-8","windows-1251",$header);
-				$data = iconv("UTF-8","windows-1251",$data);
+				$header = iconv("UTF-8","windows-1251//TRANSLIT",$header);
+				$data = iconv("UTF-8","windows-1251//TRANSLIT",$data);
 				print "$header\n$data";
 				//print($data);
 				exit;
