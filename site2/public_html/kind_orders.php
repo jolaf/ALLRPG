@@ -52,7 +52,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 			}
 			else {
 				$return=locatpath($a["parent"]);
-				$return.=' –» '.decode($a["name"]);
+				$return.=' → '.decode($a["name"]);
 			}
 		}
 		else {
@@ -74,7 +74,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 			}
 			else {
 				$return=locatpath2($a["parent"]);
-				$return.=' –» '.decode($a["name"]);
+				$return.=' → '.decode($a["name"]);
 			}
 			if($thislocat) {
 				$return.=')';
