@@ -1,12 +1,8 @@
 ﻿<?php
 
-class netTextUri extends netTextarea {
+class netTextUri extends netText {
 	function netTextUri($params) {
-		$this->netTextarea($params);
-		if ($params['rows'] > 1)
-		{
-      die("URL has to be one-line");
-		}
+		$this->netText($params);
 	}
 
 	function draw($type, $can, $linenum) {

@@ -328,9 +328,17 @@ class netBaseElem {
 	
 	var $valueFunctor; //lamda, которая создает value из строки и имени
 
+  function callFunctor ($row)
+  {
+    $func = $this -> valueFunctor;
+		return $func($this, $row);
+  }
+  
 	function setVal($a,$post,$linenum) {
+    
 		$value='';
 		$name=$this->getName();
+
 		if($post)
 		{
 			if(isset($linenum)) {
@@ -342,8 +350,7 @@ class netBaseElem {
 			}
 		}
 		else {
-      $func = $this -> valueFunctor;
-			$value= $func($this, $a);
+			$value= $this -> callFunctor ($a);
 		}
 		$this->setValue($value);
 	}
@@ -485,7 +492,11 @@ class netBaseElem {
 	}
 	
 	function isEmpty(){
-    return $this->getVal()=='' || ($this->getType()=="multiselect" && ($this->getVal()=='-' || $v->getVal()=='--')) || ($this->getType()=="select" && $v->getVal()==0)
+    return $this->getVal()=='' || ($this->getType()=="multiselect" && ($this->getVal()=='-' || $this->getVal()=='--')) || ($this->getType()=="select" && $this->getVal()==0);
+	}
+	
+	function isAnySelect() {
+    return ($this->getType()=="select" || $this->getType()=="multiselect"); //TODO: make this more polymorhic way.
 	}
 
 	function netBaseElem($params) {

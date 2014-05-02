@@ -4,25 +4,6 @@ class netText extends netBaseElem {
 	var $minchar; //минимальное количество символов
 	var $maxchar; //максимальное количество символов
 
-	function setVal($a,$post,$linenum) {
-		$value='';
-		$name=$this->getName();
-		if($post)
-		{
-			if(isset($linenum)) {
-				$value=$_POST[$name][$linenum];
-			}
-			else
-			{
-				$value=$_POST[$name];
-			}
-		}
-		elseif($a[$name]!='') {
-			$value=decode3($a[$name]);
-		}
-		$this->setValue($value);
-	}
-
 	function setMinchar($minchar)
 	{
 		$this->minchar=$minchar;
@@ -47,6 +28,13 @@ class netText extends netBaseElem {
 		$this->netBaseElem($params);
 		$this->setMinchar($params["minchar"]);
 		$this->setMaxchar($params["maxchar"]);
+		if (!array_key_exists ('valueExtractor', $params))
+		{ //override default extractor, if not supplied
+      $this -> valueFunctor = function ($obj, $row)
+      {
+        return decode3 ($row [$obj -> name]);
+      };
+    }
 	}
 
 	function draw($type, $can, $linenum) {

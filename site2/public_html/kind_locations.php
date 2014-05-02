@@ -103,13 +103,17 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["locations"]) {
 		)
 	);
 	$obj->setElem($obj_6);
-	
+
 	$obj -> setElem ( createElem( array(
     'name'    => 'url',
-    'sname'   => 'Ссылка на сетку ролей',
-    'type'    => 'text',
-    'help'    => '',
-    'default' => 'http://www.allrpg.info/gameorders.php?game=592&locat=4444',
+    'sname'   => 'Ссылка на список ролей локации',
+    'type'    => 'uri',
+    'help'    => 'Для вывешивания в публичный доступ на сайте, группе ВК или сообществе',
+    'valueExtractor' => function ($obj, $row)
+    {
+      return "http://www.allrpg.info/gameorders.php?game={$_SESSION['siteid']}&locat={$row ['id']}";
+    },
+    'default' => 1,
     'read'    => 10,
     'write'   => 100000
 	)));
