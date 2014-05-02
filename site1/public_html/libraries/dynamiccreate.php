@@ -647,8 +647,6 @@ function dynamiccreate($obj) {
 				}
 				
 				 $field_name = $v->getName();
-				
-				$is_empty = $v -> isEmpty();
 
 				if($trouble && $can=="write")
 				{
@@ -659,6 +657,7 @@ function dynamiccreate($obj) {
 					$v->setVal($a);
 				}
 				
+				$is_empty = $v -> isEmpty();
 				$empty_readonly = ($can=="read" && $is_empty);
 				
 				if($can && (!$empty_readonly || ($v->getType()=="h1")) && !($v -> isAnySelect() && count($v->getValues())==0 && $v->getMustBe()==false))
