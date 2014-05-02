@@ -538,10 +538,26 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 		$obj->setSearch($obj_5);
 		$obj->setSearch($obj_8);
 	}
-
-	if($id!='') {
-		if($a_id["vacancy"]!=0) {
-			$result3=mysql_query("SELECT * from ".$prefix."roleslinks where (roles LIKE '%-all".$a_id["vacancy"]."-%' OR roles LIKE '%-".$id."-%' OR roles2 LIKE '%-all".$a_id["vacancy"]."-%' OR roles2 LIKE '%-".$id."-%') and site_id=".$_SESSION["siteid"]." and content!='' and parent IN (SELECT id from ".$prefix."roleslinks WHERE vacancies LIKE '%-".$a_id["vacancy"]."-%') order by date ASC");
+	
+	$vacancy_id = $a_id["vacancy"];
+	
+	function get_links_for_vacancy($role_id, $vacancy_id, $site_id)
+	{
+    global $prefix, $server_absolute_path_site;
+    $result3=mysql_query("
+    SELECT * 
+    from {$prefix}roleslinks 
+    where (
+        roles LIKE '%-all{$vacancy_id}-%' 
+        OR roles LIKE '%-{$role_id}-%' 
+        OR roles2 LIKE '%-all{$vacancy_id}-%' 
+        OR roles2 LIKE '%-$role_id}-%'
+      ) 
+      and site_id={$site_id} 
+      and content!='' 
+      and parent IN (SELECT id from {$prefix}roleslinks WHERE vacancies LIKE '%-{$vacancy_id}-%')
+    order by date ASC");
+      
 			while($c=mysql_fetch_array($result3)) {
 			
         $link_to_zagruz = $server_absolute_path_site.'roleslinks/'.$c["id"];
@@ -549,8 +565,6 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
         $zagruz_about = '';
         $dosee='';
 
-				unset($roles);
-				unset($roles2);
 				$roles=substr($c["roles"],1,strlen($c["roles"])-2);
 				$roles2=substr($c["roles2"],1,strlen($c["roles2"])-2);
 				$roles=explode('-',$roles);
@@ -559,11 +573,11 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 				foreach($roles as $r) {
 					$query="";
 					if(strpos($r,'all')!==false) {
-						$result2=mysql_query("SELECT * FROM ".$prefix."rolevacancy WHERE site_id=".$_SESSION["siteid"]." and id=".str_replace('all','',$r));
+						$result2=mysql_query("SELECT * FROM {$prefix}rolevacancy WHERE site_id={$site_id} and id=".str_replace('all','',$r));
 						$b=mysql_fetch_array($result2);
 						if($b["name"]!='') {
 							$zagruz_for.='<a href="'.$server_absolute_path_site.'roles/'.$b["id"].'/">'.$b["name"].'</a>, ';
-							$query="SELECT * from ".$prefix."roles where vacancy=".$b["id"]." and site_id=".$_SESSION["siteid"];
+							$query="SELECT * from {$prefix}roles where vacancy=".$b["id"]." and site_id=".$_SESSION["siteid"];
 						}
 						elseif($r==0) {
 							$zagruz_for.='<i>глобального сюжета</i>, ';
@@ -573,7 +587,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 						}
 					}
 					else {
-						$query="SELECT * from ".$prefix."roles where id=".$r." and site_id=".$_SESSION["siteid"];
+						$query="SELECT * from {$prefix}roles where id=".$r." and site_id=$site_id";
 						$result2=mysql_query($query);
 						$b=mysql_fetch_array($result2);
 						$zagruz_for.='<a href="'.$server_absolute_path_site.'orders/'.$b["id"].'/">';
@@ -615,10 +629,9 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 					}
 				}
 				
-				
 				foreach($roles2 as $r) {
 					if(strpos($r,'all')!==false) {
-						$result2=mysql_query("SELECT * FROM ".$prefix."rolevacancy WHERE site_id=".$_SESSION["siteid"]." and id=".str_replace('all','',$r));
+						$result2=mysql_query("SELECT * FROM {$prefix}rolevacancy WHERE site_id={$site_id} and id=".str_replace('all','',$r));
 						$b=mysql_fetch_array($result2);
 						if($b["name"]!='') {
 							$zagruz_about.='<a href="'.$server_absolute_path_site.'roles/'.$b["id"].'/">'.$b["name"].'</a>, ';
@@ -631,7 +644,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 						}
 					}
 					else {
-						$result2=mysql_query("SELECT * FROM ".$prefix."roles WHERE site_id=".$_SESSION["siteid"]." and id=".$r);
+						$result2=mysql_query("SELECT * FROM {$prefix}roles WHERE site_id={$site_id} and id=".$r);
 						$b=mysql_fetch_array($result2);
 						$alllinks.='<a href="'.$server_absolute_path_site.'orders/'.$b["id"].'/">';
 						if($b["sorter"]!='') {
@@ -644,11 +657,9 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 					}
 				}
 				
-				$result2=mysql_query("SELECT * FROM ".$prefix."roleslinks WHERE id=".$c["parent"]);
+				$result2=mysql_query("SELECT * FROM {$prefix}roleslinks WHERE id=".$c["parent"]);
 				$b=mysql_fetch_array($result2);
 				$sujet_name = decode($b["name"]);
-				
-
 				
 				$link_text = '<b>«<a href="'.$server_absolute_path_site.'roleslinks/'.$b["id"].'/valuestype=0">' . $sujet_name . '</a>» — загруз (<a href="'.$link_to_zagruz.'/valuestype=1">изменить</a>) </b> <br> ' .
 				' <span style="font-size:70%;"> для ' . 
@@ -657,32 +668,44 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 				
 				$alllinks.=$link_text . '<br>';
 			}
-			$alllinks=substr($alllinks,0,strlen($alllinks)-8);
-		}
+			return substr($alllinks,0,strlen($alllinks)-8);
 	}
+	
 	if($history!=1 && $id!='') {
 		$rolefields[]=Array(
-				'sname'	=>	'Загрузы',
+				'sname'	=>	'Сюжеты и загрузы',
 				'type'	=>	"h1",
 				'read'	=>	10,
 				'write'	=>	100000,
 		);
-	}
-	if($history!=1 && $alllinks!='') {
-		$rolefields[]=Array(
+		if($vacancy_id) {
+			$alllinks = get_links_for_vacancy($id, $vacancy_id, $_SESSION["siteid"]);
+			$rolefields[]=Array(
 				'name'	=>	"alllinks",
 				'sname'	=>	"Полный список загрузов",
 				'type'	=>	"wysiwyg",
 				'default'	=>	$alllinks,
 				'read'	=>	10,
 				'write'	=>	100000,
-		);
+      );
+		}
+		else
+		{
+      $rolefields[]=Array(
+				'name'	=>	"alllinks",
+				'sname'	=>	"",
+				'type'	=>	"text",
+				'default'	=> 'Для полноценного использования системы сюжетов и загрузов необходимо приписать заявку к роли',
+				'read'	=>	10,
+				'write'	=>	100000,
+      );
+		}
 	}
 
 	$dynamic_fields_shown=array();
 	$full_locats_tree_new=array();
 	if(encode_to_cp1251($_REQUEST["vacancy"])!='' && encode_to_cp1251($_REQUEST["vacancy"])!=$a_id["vacancy"]) {
-		$result=mysql_query("SELECT * FROM ".$prefix."rolevacancy WHERE site_id=".$_SESSION["siteid"]." AND id=".encode_to_cp1251($_REQUEST["vacancy"]));
+		$result=mysql_query("SELECT * FROM {$prefix}rolevacancy WHERE site_id=".$_SESSION["siteid"]." AND id=".encode_to_cp1251($_REQUEST["vacancy"]));
 		$a=mysql_fetch_array($result);
 		if($a["locat"]!=$a_id["locat"]) {
 			$full_locats_tree_new=getlocatparents($a["locat"]);
@@ -1639,8 +1662,8 @@ body {background-color: white; background: none;}
 		$content2.='<div class="narrow">'.$obj_html.'</div>';
 		if(($id!='' || $act=="add") && $actiontype=='') {
 			$content2=preg_replace('#<div class="fieldname"[^>]+>Игрок</div>#','',$content2);
-			if($id!='' && $print!=1 && $history!=1) {
-				$content2=preg_replace('#<h1 class="data_h1">Загрузы<\/h1>#','<h1 class="data_h1">Загрузы</h1><a href="'.$server_absolute_path_site.'roleslinks/act=add&vacancies=-'.$a_id["vacancy"].'-" id="create_alllinks" target="_blank">создать сюжет</a>',$content2);
+			if($id!='' && $print!=1 && $history!=1 && $vacancy_id) {
+				$content2=preg_replace('#<h1 class="data_h1">Сюжеты и загрузы<\/h1>#','<h1 class="data_h1">Сюжеты и загрузы</h1><a href="'.$server_absolute_path_site.'roleslinks/act=add&vacancies=-'.$a_id["vacancy"].'-" id="create_alllinks" target="_blank">создать сюжет</a>',$content2);
 			}
 		}
 	}
