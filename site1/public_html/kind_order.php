@@ -1001,7 +1001,8 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 								$vacname,
 								$dynamic_fields_shown,
 								$a_id,
-								$roletype;
+								$roletype,
+								$user;
 
 							// правим название заявки в соответствие с названием роли, если в заявке названия нет
 							$vac_changed=set_locat_to_vac();
@@ -1027,7 +1028,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 							$myname=usname($user);
 							$myemail=decode($user["em"]);
 							$subject='Игроком '.$myname.' подана заявка «'.$sorter.'» на проект «'.decode($site["title"]).'»';
-							$message='От игрока '.$myname.' (ИНП: ' . $user['sid'] . ') на Ваш проект «'.decode($site["title"]).'» поступила заявка «'.$sorter.'».
+							$message='От игрока '.$myname.' на Ваш проект «'.decode($site["title"]).'» поступила заявка «'.$sorter.'».
 Перейти к заявке: '.$server_absolute_path_site.'orders/'.$id.'/site='.$site["id"].'
 Отказаться от получения уведомлений о новых заявках Вы можете здесь: '.$server_absolute_path_site.'orders/site='.$site["id"].'&action=signtonew_off (вы должны быть залогинены на allrpg.info).
 
@@ -1173,7 +1174,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 								$myemail=decode($e["em"]);
 								$subject='Игроком изменена заявка «'.decode($a_id["sorter"]).'» проекта «'.decode($site["title"]).'»';
 								$message='Добрый день.
-Заявка «'.decode($a_id["sorter"]).'» была изменена игроком «'.$myname.'»  ИНП: ' . $user['sid'] . ' .
+Заявка «'.decode($a_id["sorter"]).'» была изменена игроком «'.$myname.'» 
 Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$site["id"].' (вы должны быть залогинены на allrpg.info).
 Отказаться от получения уведомлений об изменениях заявок Вы можете здесь: '.$server_absolute_path_site.'orders/site='.$site["id"].'&action=signtochange_off (вы должны быть залогинены на allrpg.info).
 
@@ -1237,7 +1238,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 							$myemail=decode($e["em"]);
 							$subject='Игроком удалена заявка «'.decode($a["sorter"]).'» проекта «'.decode($d["title"]).'»';
 							$message='Добрый день.
-Заявка «'.decode($a["sorter"]).'» была удалена игроком «'.$myname.'»  ИНП: ' . $user['sid'] . ' .
+Заявка «'.decode($a["sorter"]).'» была удалена игроком «'.$myname.'»
 Вам необходимо либо подтвердить ее окончательно удаление, либо передать ее другому игроку.
 Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$a["site_id"].' (вы должны быть залогинены на allrpg.info).
 Отказаться от получения уведомлений об изменениях заявок Вы можете здесь: '.$server_absolute_path_site.'orders/site='.$a["site_id"].'&action=signtochange_off (вы должны быть залогинены на allrpg.info).';
