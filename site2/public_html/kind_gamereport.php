@@ -11,9 +11,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["gamereport"]) {
       UNION ALL 
       SELECT 0,0, 'Итого', 0
     ) rl
-    LEFT JOIN {$prefix}rolevacancy rv ON rv.locat = rl.id 
-    LEFT JOIN {$prefix}roles r ON r.vacancy = rv.id
-    WHERE (r.id IS NOT NULL OR rl.Id is NOT NULL) AND (r.id IS NULL OR (r.site_id = $site_id AND r.todelete = 0 AND r.todelete2 = 0 AND r.status<>4 AND r.team = '0'))
+    LEFT JOIN {$prefix}roles r ON r.locat = rl.id AND r.site_id = $site_id AND r.todelete = 0 AND r.todelete2 = 0 AND r.status<>4 AND r.team = '0'
     GROUP BY rl.id, rl.parent, rl.name  ORDER BY rl.code ASC");
     
     echo mysql_error();
@@ -88,7 +86,8 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["gamereport"]) {
       return $allrows;
     }
 
-    $obj_html = '<table class="menutable"><tr class="menu" style="font-size:90%"><th>Локация / Команда</th>
+    $obj_html = '
+    <table class="menutable"><tr class="menu" style="font-size:90%"><th>Локация / Команда</th>
       <th>Вакансий</th>
       <th>Заявок</th>
       <th>Подано</th>
