@@ -156,6 +156,10 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
     require_once($server_inner_path."appcode/export.php");
     export_roles('html', FALSE);
 	}
+	elseif ($action == "export-html-short") {
+    require_once($server_inner_path."appcode/export.php");
+    export_roles('html', FALSE, TRUE);
+	}
 	elseif ($action == "export-html-team") {
     require_once($server_inner_path."appcode/export.php");
     export_roles('html', TRUE);

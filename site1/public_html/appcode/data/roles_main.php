@@ -20,7 +20,7 @@ function load_all_roles ($site_id, $team = FALSE)
     from {$prefix}roles r
     LEFT JOIN {$prefix}users u ON r.player_id = u.id
     LEFT JOIN {$prefix}rolevacancy rv ON rv.id = r.vacancy
-    where r.site_id={$site_id} and r.team='$team'
+    where r.site_id={$site_id} and r.team='$team' AND todelete != 1 AND todelete2 != 1
     "); 
   
   $result = array();

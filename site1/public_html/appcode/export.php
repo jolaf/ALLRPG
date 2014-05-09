@@ -3,6 +3,7 @@ require_once ($server_inner_path."appcode/external/PHPExcel.php");
 require_once ($server_inner_path."appcode/data/common.php");
 require_once ($server_inner_path."appcode/data/roles_linked.php");
 require_once ($server_inner_path."appcode/data/roles_main.php");
+require_once ($server_inner_path."appcode/formatters.php");
 
 function get_excel_writer ($excel, $mode)
 {
@@ -80,44 +81,28 @@ function output_excel_headers ($mode)
   }
 }
 
-function get_delete_string ($row)
-{
-  if ($row['todelete'] && $row['todelete2'])
-  {
-    return 'Окончательно';
-  }
-  if ($row['todelete'])
-  {
-    return 'Игроком';
-  }
-  if ($row['todelete2'])
-  {
-    return 'Мастером';
-  }
-  return "";
-}
-
 function export_roles_of_kind ($mode, $team, $fields_before, $fields_after, $sheet)
 {
    $rolefields = load_rolefields_virtual_structure ($_SESSION["siteid"], $team);
+   
+   $fields = array_merge ($fields_before, $rolefields, $fields_after);
 	 
 	 $excel_structure = array();
 	 
-	 foreach ($fields_before as $field)
+	 foreach ($fields as $field)
 	 {
     $excel_structure[] = createElem ($field);
 	 }
 	 
-	 foreach ($rolefields as $field)
-	 {
-    $excel_structure[] = createElem ($field);
-	 }
-	 
-	 foreach ($fields_after as $field)
-	 {
-    $excel_structure[] = createElem ($field);
-	 }
-	 
+	for ($i = 0, $size = count ($fields);  $i < $size; $i++)
+  {
+    if ($fields[$i]['name'] == 'phone')
+    {
+      $column = $i;
+      break;
+    }
+  }
+  
   $result = load_all_roles($_SESSION['siteid'], $team);
   
   $sheet -> fromArray (output_header ($excel_structure), NULL, 'A1');
@@ -129,6 +114,13 @@ function export_roles_of_kind ($mode, $team, $fields_before, $fields_after, $she
     $row++;
   }
   
+  if ($column)
+  {
+    for ($i = 0, $size = count ($roles);  $i < $size; $i++)
+    {
+      $sheet -> getCellByColumnAndRow($column, $i + 1) -> setDatatype (PHPExcel_Cell_DataType::TYPE_STRING);
+    }
+  }
 }
 
 function get_fields_before ()
@@ -138,14 +130,6 @@ function get_fields_before ()
 					'name'	=>	"sid",
 					'sname'	=>	"ИНП",
 					'type'	=>	"text",
-					'read'	=>	1,
-					'write'	=>	100000,
-			),
-    array(
-					'name'	=>	"todelete",
-					'sname'	=>	"Удалена",
-					'type'	=>	"text",
-					'valueExtractor' => function ($obj, $row) { return get_delete_string($row); },
 					'read'	=>	1,
 					'write'	=>	100000,
 			),
@@ -209,7 +193,7 @@ function get_fields_before ()
 			),
 			Array(
 					'name'	=>	"gender",
-					'sname'	=>	"пол",
+					'sname'	=>	"Пол",
 					'type'	=>	"select",
 					'values'	=>	Array(Array('1','мужской'),Array('2','женский')),
 					'read'	=>	1,
@@ -231,22 +215,23 @@ function get_fields_before ()
 			),
 			Array(
 					'name'	=>	"icq",
-					'sname'	=>	"icq",
+					'sname'	=>	"ICQ",
 					'type'	=>	"text",
 					'read'	=>	1,
 					'write'	=>	100000,
 			),
 			Array(
 					'name'	=>	"phone2",
-					'sname'	=>	"phone2",
+					'sname'	=>	"Телефон",
 					'type'	=>	"text",
+					'valueExtractor' => phone_formatter, 
 					'read'	=>	1,
 					'write'	=>	100000,
 			),
 			
 			Array(
 					'name'	=>	"skype",
-					'sname'	=>	"skype",
+					'sname'	=>	"Skype",
 					'type'	=>	"text",
 					'read'	=>	1,
 					'write'	=>	100000,
@@ -254,42 +239,42 @@ function get_fields_before ()
 			
 			Array(
 					'name'	=>	"jabber",
-					'sname'	=>	"jabber",
+					'sname'	=>	"Jabber",
 					'type'	=>	"text",
 					'read'	=>	1,
 					'write'	=>	100000,
 			),
 			Array(
 					'name'	=>	"vkontakte",
-					'sname'	=>	"vkontakte",
+					'sname'	=>	"Vkontakte",
 					'type'	=>	"text",
 					'read'	=>	1,
 					'write'	=>	100000,
 			),
 			Array(
 					'name'	=>	"tweeter",
-					'sname'	=>	"tweeter",
+					'sname'	=>	"Tweeter",
 					'type'	=>	"text",
 					'read'	=>	1,
 					'write'	=>	100000,
 			),
 			Array(
 					'name'	=>	"livejournal",
-					'sname'	=>	"livejournal",
+					'sname'	=>	"Livejournal",
 					'type'	=>	"text",
 					'read'	=>	1,
 					'write'	=>	100000,
 			),
 			Array(
 					'name'	=>	"googleplus",
-					'sname'	=>	"googleplus",
+					'sname'	=>	"Google+",
 					'type'	=>	"text",
 					'read'	=>	1,
 					'write'	=>	100000,
 			),
 			Array(
 					'name'	=>	"facebook",
-					'sname'	=>	"facebook",
+					'sname'	=>	"Facebook",
 					'type'	=>	"text",
 					'read'	=>	1,
 					'write'	=>	100000,
@@ -343,7 +328,9 @@ function export_roles ($mode, $team, $short = FALSE)
     
   $sheet = $excel -> getActiveSheet();
   
-  export_roles_of_kind ($mode, $team, get_fields_before(), $short ? array() : get_fields_after(), $sheet);
+  $fields_before = get_fields_before();
+  
+  export_roles_of_kind ($mode, $team, $fields_before, $short ? array() : get_fields_after(), $sheet);
   
   output_excel_headers ($mode);
   header("Pragma: no-cache");
