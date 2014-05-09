@@ -1665,13 +1665,6 @@ body {background-color: white; background: none;}
 
 		$ctrllinks.='</td></tr></table></center><br /></div>';
 
-		$additional_commands.='<a onClick="$(\'#filters_export\').toggle();">экспорт</a>';
-
-    function ctrl_link_text ($action, $label)
-    {
-      global $server_absolute_path_site, $kind;
-      return ;
-    }
     $control_links = array(
       array ('exporttooffline', 'allrpg.offline'),
       array ('exporttobrain', 'PersonalBrain'),
