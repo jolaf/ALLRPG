@@ -1,5 +1,5 @@
 ﻿<?php
-
+require_once ($server_inner_path."appcode/formatters.php");
 if($_SESSION["user_id"]!='') {
 
 	if($object>0) {
@@ -114,6 +114,7 @@ if($_SESSION["user_id"]!='') {
 				'sname'	=>	"Контактный телефон",
 				'type'	=>	"text",
 				'default'	=>	$a["phone2"],
+				'valueExtractor' => phone_formatter, 
 				'read'	=>	$hidesome['phone2'],
 				'write'	=>	100000,
 			),
