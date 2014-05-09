@@ -166,7 +166,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 	}
 
 	// Создание объекта
-	$result=mysql_query("SELECT id,changed,date FROM ".$prefix."roles where site_id=".$_SESSION["siteid"]);
+	$result=mysql_query("SELECT id,changed,date FROM {$prefix}  roles where site_id=".$_SESSION["siteid"]);
 	while($a = mysql_fetch_array($result)) {
 		$result2=mysql_query("SELECT user_id,date FROM ".$prefix."rolescomments where site_id=".$_SESSION["siteid"]." and role_id=".$a["id"]." order by date desc limit 0,1");
 		$b = mysql_fetch_array($result2);
@@ -178,7 +178,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 		}
 		$c = mysql_fetch_array($result3);
 
-		$allchanged[]=Array($a["date"],date("d.m.Y в H:i",$a["date"]>$b["date"]?$a["date"]:$b["date"]).'<br />'.usname2($c,true));
+		$allchanged[]=Array($a["date"],date("d.m.Y H:i",$a["date"]>$b["date"]?$a["date"]:$b["date"]).' '.usname2($c,true));
 		$allchanged_sort[]=$a["date"]>$b["date"]?$a["date"]:$b["date"];
 	}
 	array_multisort($allchanged_sort, SORT_ASC, $allchanged);
@@ -435,7 +435,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 		}
 		$mainfields[]=Array(
 				'name'	=>	"locat",
-				'sname'	=>	"Локация / команда",
+				'sname'	=>	"Локация",
 				'type'	=>	"select",
 				'values'	=>	$locatpermit,
 				'read'	=>	10,
@@ -1487,7 +1487,6 @@ body {background-color: white; background: none;}
 		$obj_html.='</td></tr></table>';
 	}
 	if(($act=='' && $id=='') || ($id!='' && $actiontype!='' && !$trouble)) {
-		$additional_commands.='<a onClick="$(\'#filters_settings\').toggle();">Настройки уведомлений</a>';
 		$ctrllinks.='
 <div id="filters_settings">';
 		$ctrllinks.='<a href="'.$server_absolute_path_site.$kind.'/action=';
@@ -1503,14 +1502,14 @@ body {background-color: white; background: none;}
 		$result=mysql_query("SELECT signtonew,signtocomments,signtochange FROM ".$prefix."allrights2 WHERE user_id=".$_SESSION["user_sid"]." and site_id=".$_SESSION["siteid"]);
 		$a = mysql_fetch_array($result);
 		
-		$ctrllinks.= '<br>Уведомления о новых заявках: ';
+		$ctrllinks.= '<br><b>Уведомления</b>: о новых заявках ';
 		if($a["signtonew"]=='1') {
 			$ctrllinks.='включены (<a href="'.$server_absolute_path_site.$kind.'/action=signtonew_off">выключить</a>)';
 		}
 		else {
 			$ctrllinks.='отключены (<a href="'.$server_absolute_path_site.$kind.'/action=signtonew_on">включить</a>)';
 		}
-		$ctrllinks.='<br>Уведомления об изменениях: ';
+		$ctrllinks.=', об изменениях: ';
 		if($a["signtochange"]=='1') {
       $ctrllinks.='включены (<a href="'.$server_absolute_path_site.$kind.'/action=signtochange_off">выключить</a>)';
 		}
@@ -1518,7 +1517,7 @@ body {background-color: white; background: none;}
 			$ctrllinks.='отключены (<a href="'.$server_absolute_path_site.$kind.'/action=signtochange_on">включить</a>)';
 		}
 
-		$ctrllinks.='<br>Уведомления о комментариях: ';
+		$ctrllinks.=', о комментариях: ';
 		
 		if($a["signtocomments"]=='1') {
 		  $ctrllinks.='включены (<a href="'.$server_absolute_path_site.$kind.'/action=signtocomments_off">выключить</a>)';
@@ -1527,7 +1526,7 @@ body {background-color: white; background: none;}
 			$ctrllinks.='отключены (<a href="'.$server_absolute_path_site.$kind.'/action=signtocomments_on">включить</a>)';
 		}
 
-		$ctrllinks.='<br /><br /></div>';
+		$ctrllinks.='</div>';
 
 		$additional_commands.='<a onClick="$(\'#filters_stats\').toggle();">Статистика</a>';
 
@@ -1653,16 +1652,6 @@ body {background-color: white; background: none;}
 		}
 		$ctrllinks.=$summoneydone.'р.</span>';
 
-		$result=mysql_query("SELECT money FROM ".$prefix."roles WHERE todelete2=1 and site_id=".$_SESSION["siteid"]);
-		if(mysql_affected_rows($link)>0) {
-			if($_SESSION["viewdeleted"]) {
-				$ctrllinks.='<br><a href="'.$server_absolute_path_site.'orders/action=viewdeleted_off"><b>Уйти из удаленных заявок</b></a>';
-			}
-			else {
-				$ctrllinks.='<br><a href="'.$server_absolute_path_site.'orders/action=viewdeleted_on"><b>Посмотреть удаленные заявки</b></a>';
-			}
-		}
-
 		$ctrllinks.='</td></tr></table></center><br /></div>';
 
     $control_links = array(
@@ -1686,7 +1675,7 @@ body {background-color: white; background: none;}
     }
     $ctrllinks.= implode(", ", $control_links_formatted);
     
-    $ctrllinks.='<br /><br /></div>';
+    $ctrllinks.='</div>';
 
 		$obj_html=str_replace('<div class="indexer">', $ctrllinks.'<div class="indexer">', $obj_html);
 
