@@ -139,6 +139,27 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 		}
 		require_once("orders_inc.php");
 	}
+	
+  if ($action == "export-xlsx-single") {
+    require_once($server_inner_path."appcode/export.php");
+    export_roles('xlsx', FALSE);
+	}
+	elseif ($action == "export-xlsx-short") {
+    require_once($server_inner_path."appcode/export.php");
+    export_roles('xlsx', FALSE, TRUE);
+	}
+	elseif ($action == "export-xlsx-team") {
+    require_once($server_inner_path."appcode/export.php");
+    export_roles('xlsx', TRUE);
+	}
+	elseif ($action == "export-html-single") {
+    require_once($server_inner_path."appcode/export.php");
+    export_roles('html', FALSE);
+	}
+	elseif ($action == "export-html-team") {
+    require_once($server_inner_path."appcode/export.php");
+    export_roles('html', TRUE);
+	}
 
 	// Создание объекта
 	$result=mysql_query("SELECT id,changed,date FROM ".$prefix."roles where site_id=".$_SESSION["siteid"]);
@@ -1641,9 +1662,33 @@ body {background-color: white; background: none;}
 
 		$additional_commands.='<a onClick="$(\'#filters_export\').toggle();">экспорт</a>';
 
+    function ctrl_link_text ($action, $label)
+    {
+      global $server_absolute_path_site, $kind;
+      return ;
+    }
+    $control_links = array(
+      array ('exporttooffline', 'allrpg.offline'),
+      array ('exporttobrain', 'PersonalBrain'),
+      array ('export-xlsx-short', 'Excel'),
+      array ('export-xlsx-single', 'Excel c комментариями'),
+      array ('export-xlsx-team', 'Excel командные'),
+      //array ('export-html-single', 'HTML - индивидуальные'), // This modes are highly useful for debugging in PC without Excel, so I implement them. Probably not useful for user.
+      //array ('export-html-team', 'HTML - командные'),
+      //array ('exportroles', 'Excel (старый режим)'), // This is "old" Excel export (Tab separated file). Should drop this when new Excel export provide
+      );
+      
 		$ctrllinks.='
 <div id="filters_export">
-<b>Экспорт в</b>: <a href="'.$server_absolute_path_site.$kind.'/action=exportroles" target="_blank">Excel</a>, <a href="'.$server_absolute_path_site.$kind.'/action=exporttooffline" target="_blank">allrpg.offline</a>, <a href="'.$server_absolute_path_site.$kind.'/action=exporttobrain" target="_blank">PersonalBrain</a> (<a href="'.$server_absolute_path_offline.'">инструкции</a>)<br /><br /></div>';
+<b>Экспорт в</b>: ';
+    $control_links_formatted = array();
+    foreach ($control_links as $control_link)
+    {
+      $control_links_formatted[] = "<a href=\"{$server_absolute_path_site}{$kind}/action={$control_link[0]}\" target=\"_blank\">{$control_link[1]}</a>";
+    }
+    $ctrllinks.= implode(", ", $control_links_formatted);
+    
+    $ctrllinks.='<br /><br /></div>';
 
 		$obj_html=str_replace('<div class="indexer">', $ctrllinks.'<div class="indexer">', $obj_html);
 

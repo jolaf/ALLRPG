@@ -498,6 +498,11 @@ class netBaseElem {
 	function isAnySelect() {
     return ($this->getType()=="select" || $this->getType()=="multiselect"); //TODO: make this more polymorhic way.
 	}
+	
+	function isExcelSupported() { //TODO: make this more polymorhic way.
+    $type = $this -> getType();
+    return $type!="h1" && $type!="file" && $type!="timestamp" && $type!="hidden";
+	}
 
 	function netBaseElem($params) {
 		$this->setName($params["name"]);
