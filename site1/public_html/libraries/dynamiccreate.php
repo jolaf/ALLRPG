@@ -910,7 +910,7 @@ function dynamiccreate($obj) {
 													}
 													elseif($v->getType()=="timestamp")
 													{
-														$ss.=date("d.m.Y",$a[$show[$i]]).' в '.date("G:i",$a[$show[$i]]);
+														$ss.=date("d.m.Y",$a[$show[$i]]).' '.date("H:i",$a[$show[$i]]);
 													}
 													else
 													{
@@ -1015,7 +1015,7 @@ function dynamiccreate($obj) {
 															}
 															elseif($v->getType()=="timestamp")
 															{
-																$ss.=date("d.m.Y",$a[$show2[$i]]).' в '.date("G:i",$a[$show2[$i]]);
+																$ss.=date("d.m.Y",$a[$show2[$i]]).' '.date("H:i",$a[$show2[$i]]);
 															}
 															else
 															{
@@ -1120,7 +1120,7 @@ function dynamiccreate($obj) {
 													}
 													elseif($v->getType()=="timestamp")
 													{
-														$ss.=date("d.m.Y",$a[$show2[$i]]).' в '.date("G:i",$a[$show2[$i]]);
+														$ss.=date("d.m.Y",$a[$show2[$i]]).' '.date("H:i",$a[$show2[$i]]);
 													}
 													else
 													{
@@ -1226,7 +1226,7 @@ function dynamiccreate($obj) {
 											}
 											elseif($v->getType()=="timestamp")
 											{
-												$content.=date("d.m.Y",$a[$show[$i]]).' в '.date("G:i",$a[$show[$i]]);
+												$content.=date("d.m.Y",$a[$show[$i]]).' '.date("H:i",$a[$show[$i]]);
 											}
 											else
 											{

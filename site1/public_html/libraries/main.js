@@ -831,18 +831,18 @@ function scaleFont() {
 
   if (viewPortWidth >= 1900) {
   	$('body').css('font-size','75%');
-  	$('div.fullpage').css('paddingRight','20%');
-  	$('div.fullpage').css('paddingLeft','20%');
+  	$('div.fullpage').css('paddingRight','5%');
+  	$('div.fullpage').css('paddingLeft','5%');
   }
   else if (viewPortWidth >= 1400) {
   	$('body').css('font-size','75%');
-  	$('div.fullpage').css('paddingRight','10%');
-  	$('div.fullpage').css('paddingLeft','10%');
+  	$('div.fullpage').css('paddingRight','3%');
+  	$('div.fullpage').css('paddingLeft','3%');
   }
   else if (viewPortWidth >= 1200) {
   	$('body').css('font-size','75%');
-  	$('div.fullpage').css('paddingRight','5%');
-  	$('div.fullpage').css('paddingLeft','5%');
+  	$('div.fullpage').css('paddingRight','3%');
+  	$('div.fullpage').css('paddingLeft','3%');
   }
   else if (viewPortWidth >= 1000) {
   	$('body').css('font-size','62.5%');

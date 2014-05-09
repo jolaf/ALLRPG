@@ -255,7 +255,7 @@ table.maininfotable, table.menutable {
 	width: 100%;
 }
 table.maininfotable td, table.menutable td {
-	padding: 1%;
+	padding: 5px;
 	vertical-align: top;
 }
 table.maininfotable tr.menu, table.menutable tr.menu, div.news_header {
@@ -698,7 +698,7 @@ div.header_right {
 	float: right;
 	height: 100%;
 	width: 60%;
-	padding-top: 2.5%;
+	padding-top: 10px;
 }
 div.login {
 	background-color: #00b2b9;
