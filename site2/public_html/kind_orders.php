@@ -915,8 +915,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 
 							$message='Добрый день.
 Заявка «'.decode($a["sorter"]).'» игрока «'.usname($b,true).'» была изменена мастером «'.$myname.'».
-Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$_SESSION["siteid"].' (вы должны быть залогинены на allrpg.info).
-Отказаться от получения уведомлений об изменении заявок Вы можете здесь: '.$server_absolute_path_site.'orders/site='.$_SESSION["siteid"].'&action=signtochange_off (вы должны быть залогинены на allrpg.info).';
+Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$_SESSION["siteid"].' (вы должны быть залогинены на allrpg.info).';
 
 							$result2=mysql_query("SELECT * FROM ".$prefix."allrights2 WHERE site_id=".$_SESSION["siteid"]." AND (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a["locat"]).") AND signtochange='1' AND user_id!=".$_SESSION["user_sid"]);
 							while($b=mysql_fetch_array($result2)) {
@@ -1000,8 +999,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 					$b=mysql_fetch_array($result2);
 
 					$message='Добрый день.
-Заявка «'.decode($a["sorter"]).'» игрока «'.usname($b,true).'» была удалена мастером «'.$myname.'».
-Отказаться от получения уведомлений об изменении заявок Вы можете здесь: '.$server_absolute_path_site.'orders/site='.$_SESSION["siteid"].'&action=signtochange_off (вы должны быть залогинены на allrpg.info).';
+Заявка «'.decode($a["sorter"]).'» игрока «'.usname($b,true).'» была удалена мастером «'.$myname.'»';
 
 					$result2=mysql_query("SELECT * from ".$prefix."allrights2 WHERE site_id=".$_SESSION["siteid"]." and (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a_id["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a_id["locat"]).") AND signtochange='1' AND user_id!=".$_SESSION["user_sid"]);
 					while($b=mysql_fetch_array($result2)) {

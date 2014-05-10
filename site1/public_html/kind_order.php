@@ -198,9 +198,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 Заявку «'.decode($a["sorter"]).'» откомментировал игрок «'.$myname.'».
 Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$a["site_id"].' (вы должны быть залогинены на allrpg.info).
 
-'.decode($comment_content).'
-
-Отказаться от получения уведомлений о новых комментариях Вы можете здесь: '.$server_absolute_path_site.'orders/site='.$a["site_id"].'&action=signtocomments_off (вы должны быть залогинены на allrpg.info).';
+'.decode($comment_content);
 
 						$result2=mysql_query("SELECT * FROM ".$prefix."allrights2 WHERE site_id=".$a["site_id"]." AND (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a["locat"]).") AND signtocomments='1'");
 						while($b=mysql_fetch_array($result2)) {
@@ -1030,7 +1028,6 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 							$subject='Игроком '.$myname.' подана заявка «'.$sorter.'» на проект «'.decode($site["title"]).'»';
 							$message='От игрока '.$myname.' на Ваш проект «'.decode($site["title"]).'» поступила заявка «'.$sorter.'».
 Перейти к заявке: '.$server_absolute_path_site.'orders/'.$id.'/site='.$site["id"].'
-Отказаться от получения уведомлений о новых заявках Вы можете здесь: '.$server_absolute_path_site.'orders/site='.$site["id"].'&action=signtonew_off (вы должны быть залогинены на allrpg.info).
 
 ';
 							$old=unmakevirtual($a_id['allinfo']);
@@ -1176,7 +1173,6 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 								$message='Добрый день.
 Заявка «'.decode($a_id["sorter"]).'» была изменена игроком «'.$myname.'» 
 Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$site["id"].' (вы должны быть залогинены на allrpg.info).
-Отказаться от получения уведомлений об изменениях заявок Вы можете здесь: '.$server_absolute_path_site.'orders/site='.$site["id"].'&action=signtochange_off (вы должны быть залогинены на allrpg.info).
 
 '.$message2;
 								$message=str_replace(array('<br>','<br />'),'
@@ -1240,8 +1236,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 							$message='Добрый день.
 Заявка «'.decode($a["sorter"]).'» была удалена игроком «'.$myname.'»
 Вам необходимо либо подтвердить ее окончательно удаление, либо передать ее другому игроку.
-Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$a["site_id"].' (вы должны быть залогинены на allrpg.info).
-Отказаться от получения уведомлений об изменениях заявок Вы можете здесь: '.$server_absolute_path_site.'orders/site='.$a["site_id"].'&action=signtochange_off (вы должны быть залогинены на allrpg.info).';
+Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$a["site_id"].' (вы должны быть залогинены на allrpg.info).';
 
 							$result2=mysql_query("SELECT * FROM ".$prefix."allrights2 WHERE site_id=".$a["site_id"]." AND (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a["locat"]).") AND signtochange='1'");
 							while($b=mysql_fetch_array($result2)) {

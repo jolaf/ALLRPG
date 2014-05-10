@@ -836,8 +836,7 @@ $rolefields[]=Array(
 
 '.decode($comment_content).'
 
-Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$_SESSION["siteid"].'
-Отказаться от получения уведомлений о новых комментариях Вы можете здесь: '.$server_absolute_path_site.'orders/site='.$_SESSION["siteid"].'&action=signtocomments_off';
+Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$_SESSION["siteid"];
 
 				$result2=mysql_query("SELECT * FROM {$prefix}allrights2 WHERE site_id=".$_SESSION["siteid"]." AND (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a["locat"]).") AND signtocomments='1' AND user_id!=".$_SESSION["user_sid"]);
 				while($b=mysql_fetch_array($result2)) {
