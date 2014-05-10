@@ -255,7 +255,7 @@ div.checkbox_mustbe {
 table.maininfotable, table.menutable {
 	width: 100%;
 }
-table.maininfotable td, table.menutable td {
+table.maininfotable td, table.menutable td, table.maininfotable th, table.menutable th {
 	padding: 5px;
 	vertical-align: top;
 }
