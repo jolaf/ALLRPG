@@ -5,6 +5,7 @@
 include_once($path.'db.inc');
 include_once($path.'classes_objects_allrpg.php');
 include_once($path.$direct.'/classes/classes_objects.php');
+
 session_start();
 start_mysql();
 
@@ -43,28 +44,6 @@ if(isset($_REQUEST["roles"])) {
 </head>
 
 <body>';
-
-    function locatpath($id) {
-		global
-			$prefix,
-			$_SESSION;
-
-		$result=mysql_query("SELECT * FROM ".$prefix."roleslocat WHERE id=".$id." and site_id=".$_SESSION["siteid"]);
-		$a=mysql_fetch_array($result);
-		if($a["id"]!='') {
-			if($a["parent"]==0) {
-				$return=decode($a["name"]);
-			}
-			else {
-				$return=locatpath($a["parent"]);
-				$return.=' –» '.decode($a["name"]);
-			}
-		}
-		else {
-			$return='не указана';
-		}
-		return($return);
-	}
 
 	$locatpermit=make5fieldtree(false,$prefix."roleslocat","parent",0," AND site_id=".$_SESSION["siteid"],"code asc, name asc",0,"id","name",1000000);
 
