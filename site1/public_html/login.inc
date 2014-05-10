@@ -13,17 +13,11 @@ else {
 		else {
 			$photo=$server_absolute_path.$uploads[4]['path'].$a["photo"];
 		}
-		$login='<div class="login" id="login"><div class="text">'.usname2($a,true).'</div>';
-		$result=mysql_query("SELECT COUNT(id) from ".$prefix."blog_pms where user_id=".$_SESSION["user_id"]." and pmread='0'");
-		$a=mysql_fetch_array($result);
-        if($a[0]>0) {
-			$login.='<div class="messages_count">новые сообщения: <b>'.$a[0].'</b></div>';
-        }
-		$login.='
+		$login='<div class="login" id="login"><div class="text">'.usname2($a,true).'</div>
 <div class="login_options">
 <a href="'.$server_absolute_path_info.'users/'.$_SESSION["user_sid"].'/"><img src="'.$photo.'"/></a>
 <a href="'.$server_absolute_path_info.'users/'.$_SESSION["user_sid"].'/">профиль</a><br>
-<a href="'.$server_absolute_path.'inbox/">сообщения: <b>'.$a[0].'</b></a><br>
+<a href="'.$server_absolute_path.'order/">мои заявки</a><br>
 <a href="'.$curdir.$kind.'/action=logout">разлогиниться</a>
 </div>
 </div>
