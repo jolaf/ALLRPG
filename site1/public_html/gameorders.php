@@ -23,7 +23,8 @@ if($game!='')
 	$subobj=$game;
 
 	function locatpath($id) {
-		$return = implode (' → ', get_location_path ($id, $_SESSION ['siteid']));
+    global $subobj;
+		$return = implode (' → ', get_location_path ($id, $subobj));
 		return $return ? $return : 'не указана';
 	}
 
