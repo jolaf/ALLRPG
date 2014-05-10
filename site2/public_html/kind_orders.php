@@ -1,4 +1,7 @@
 ﻿<?php
+require_once ($server_inner_path."appcode/data/common.php");
+require_once ($server_inner_path."appcode/data/roles_linked.php");
+
 if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 	// заявки игроков
 
@@ -40,50 +43,8 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 	}
 
 	function locatpath($id) {
-		global
-			$prefix,
-			$_SESSION;
-
-		$result=mysql_query("SELECT * FROM ".$prefix."roleslocat WHERE id=".$id." and site_id=".$_SESSION["siteid"]);
-		$a=mysql_fetch_array($result);
-		if($a["id"]!='') {
-			if($a["parent"]==0) {
-				$return=decode($a["name"]);
-			}
-			else {
-				$return=locatpath($a["parent"]);
-				$return.=' → '.decode($a["name"]);
-			}
-		}
-		else {
-			$return='не указана';
-		}
-		return($return);
-	}
-
-	function locatpath2($id,$thislocat) {
-		global
-			$prefix,
-			$_SESSION;
-
-		$result=mysql_query("SELECT * FROM ".$prefix."roleslocat WHERE id=".$id." and site_id=".$_SESSION["siteid"]);
-		$a=mysql_fetch_array($result);
-		if($a["id"]!='') {
-			if($a["parent"]==0) {
-				$return=' ('.decode($a["name"]);
-			}
-			else {
-				$return=locatpath2($a["parent"]);
-				$return.=' → '.decode($a["name"]);
-			}
-			if($thislocat) {
-				$return.=')';
-			}
-		}
-		else {
-			$return=' (локация не указана)';
-		}
-		return($return);
+		$return = implode ('→', get_location_path ($id, $_SESSION ['siteid']));
+		return $return ? $return : 'не указана';
 	}
 
 	$history=encode($_REQUEST["history"]);
@@ -166,20 +127,27 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 	}
 
 	// Создание объекта
-	$result=mysql_query("SELECT id,changed,date FROM {$prefix}  roles where site_id=".$_SESSION["siteid"]);
+	$result=db_query("SELECT id,changed,date, player_id FROM {$prefix}roles where site_id=".$_SESSION["siteid"]);
 	while($a = mysql_fetch_array($result)) {
 		$result2=mysql_query("SELECT user_id,date FROM ".$prefix."rolescomments where site_id=".$_SESSION["siteid"]." and role_id=".$a["id"]." order by date desc limit 0,1");
 		$b = mysql_fetch_array($result2);
-		if($a["date"]>$b["date"]) {
-			$result3=mysql_query("SELECT * FROM ".$prefix."users where id=".$a["changed"]);
-		}
-		else {
-			$result3=mysql_query("SELECT * FROM ".$prefix."users where id=".$b["user_id"]);
-		}
-		$c = mysql_fetch_array($result3);
+		
+		$target_user_id = ($a["date"]>$b["date"]) ? $a["changed"] : $b["user_id"];
+		$target_date = $a["date"]>$b["date"]?$a["date"]:$b["date"];
 
-		$allchanged[]=Array($a["date"],date("d.m.Y H:i",$a["date"]>$b["date"]?$a["date"]:$b["date"]).' '.usname2($c,true));
-		$allchanged_sort[]=$a["date"]>$b["date"]?$a["date"]:$b["date"];
+		if ($a['player_id'] != $target_user_id)
+		{
+      $result3=db_query("SELECT * FROM {$prefix}users where id=$target_user_id");
+      $c = mysql_fetch_array($result3);
+      $change_username = usname2($c,true);
+    }
+    else
+    {
+      $change_username = 'игрок';
+    }
+
+		$allchanged[]=Array($a["date"],date("d.m.Y H:i", $target_date).'<br>'.$change_username);
+		$allchanged_sort[]=target_date;
 	}
 	array_multisort($allchanged_sort, SORT_ASC, $allchanged);
 
@@ -341,19 +309,31 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 	// Создание полей объекта
 
 	$vacancy=Array();
-	$result2=mysql_query("SELECT * from ".$prefix."rolevacancy where site_id=".$_SESSION["siteid"]." and team='".$roletype."' ORDER by name asc, code asc");
+	$site_id = intval($_SESSION["siteid"]);
+	$result2=db_query("
+    SELECT 
+    rv.id, rv.name, rv.locat, rv.kolvo, COUNT(r.id) AS present
+    from {$prefix}rolevacancy rv
+    left join {$prefix}roles r ON r.vacancy = rv.id
+    where
+      rv.site_id=$site_id 
+      and rv.team='$roletype' 
+      and (r.status IS NULL or r.status = 3)
+    GROUP BY rv.id, rv.name, rv.locat, rv.kolvo, rv.code
+    ORDER by rv.name asc, rv.code asc");
 	while($b=mysql_fetch_array($result2))
 	{
-		$result3=mysql_query("SELECT COUNT(id) from ".$prefix."roles where site_id=".$_SESSION["siteid"]." AND status=3 AND vacancy=".$b["id"]);
-		$c=mysql_fetch_array($result3);
-		if($c[0]<$b["kolvo"])
+		$vacancy_text = $b["name"].' ('.locatpath($b["locat"]) . ')';
+		
+		if($b['present'] >= $b["kolvo"])
 		{
-			$vacancy[]=Array($b["id"],$b["name"].locatpath2($b["locat"],true));
+      if ($a_id && $a_id['vacancy'] != $b['id'])
+      {
+        continue;
+      }
+			$vacancy_text .= '(набрано)';
 		}
-		else
-		{
-			$vacancy[]=Array($b["id"],$b["name"].locatpath2($b["locat"],true).' (набрано)');
-		}
+		$vacancy[]=Array($b["id"], $vacancy_text);
 	}
 
 	$mainfields=Array (
@@ -478,6 +458,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 			'sname'	=>	"Заявка на роль",
 			'type'	=>	"select",
 			'values'	=>	$vacancy,
+			'help'  => 'Роль можно сменить только на свободную',
 			'read'	=>	10,
 			'write'	=>	100,
 	);
