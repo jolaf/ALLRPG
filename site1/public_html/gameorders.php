@@ -2,6 +2,7 @@
 include_once("db.inc");
 require_once($server_inner_path.$direct."/classes/classes_objects.php");
 require_once($server_inner_path."classes_objects_allrpg.php");
+require_once ($server_inner_path."appcode/data/roles_linked.php");
 
 start_mysql();
 # Установление соединения с MySQL-сервером
@@ -22,20 +23,8 @@ if($game!='')
 	$subobj=$game;
 
 	function locatpath($id) {
-		global
-			$prefix,
-			$subobj;
-
-		$result=mysql_query("SELECT * FROM ".$prefix."roleslocat WHERE id=".$id." and site_id=".$subobj);
-		$a=mysql_fetch_array($result);
-		if($a["parent"]==0) {
-			$return=decode($a["name"]);
-		}
-		else {
-			$return=locatpath($a["parent"]);
-			$return.=' &rarr; '.decode($a["name"]);
-		}
-		return($return);
+		$return = implode (' → ', get_location_path ($id, $_SESSION ['siteid']));
+		return $return ? $return : 'не указана';
 	}
 
 	function getlocatchild($locat) {
@@ -269,15 +258,17 @@ if($game!='')
 				$sorting=1;
 			}
 			if($havelocats) {
-				if(encode($_GET["wantrole"])!='') {
-					$query="SELECT t1.*, t2.name as locatname, t2.id as locatid, t3.sid, t3.nick, t3.fio, t3.hidesome, t4.name as vacancyname FROM ".$prefix."users t3, ".$prefix."roles t1 LEFT JOIN ".$prefix."roleslocat t2 ON t2.id=t1.locat LEFT JOIN ".$prefix."rolevacancy t4 ON t4.id=t1.vacancy WHERE (t2.rights!=1 || t1.locat='') and t1.todelete!=1 and t1.todelete2!=1 and t3.id=t1.player_id and t4.id=".encode($_GET["wantrole"])." and t1.site_id=".$subobj.($locat>0?' and t2.id IN ('.getlocatchild($locat).')':'')." order by FIELD(t2.id, ".$alllocats_ids.")";
+				if(encode($_GET["wantrole"])!='' || encode($_GET["wantrole2"])!='') {
+          $wantrole = intval ($_GET["wantrole"]);
+          if (!$wantrole)
+          {
+            $wantrole = intval ($_GET["wantrole2"]);
+          }
+          $acceptedfilter = $showonlyacceptedroles ? " AND t1.status = 3" : '';
+					$query="SELECT t1.*, t2.name as locatname, t2.id as locatid, t3.sid, t3.nick, t3.fio, t3.hidesome, t4.name as vacancyname FROM ".$prefix."users t3, ".$prefix."roles t1 LEFT JOIN ".$prefix."roleslocat t2 ON t2.id=t1.locat LEFT JOIN ".$prefix."rolevacancy t4 ON t4.id=t1.vacancy 
+					WHERE (t2.rights!=1 || t1.locat='') and t1.todelete!=1 and t1.todelete2!=1 $acceptedfilter and t3.id=t1.player_id and t4.id=$wantrole and t1.site_id=".$subobj.($locat>0?' and t2.id IN ('.getlocatchild($locat).')':'')." order by FIELD(t2.id, ".$alllocats_ids.")";
 
-					$query2="SELECT COUNT(t1.id) FROM ".$prefix."users t3, ".$prefix."roles t1 LEFT JOIN ".$prefix."roleslocat t2 ON t2.id=t1.locat LEFT JOIN ".$prefix."rolevacancy t4 ON t4.id=t1.vacancy WHERE (t2.rights!=1 || t1.locat='') and t1.todelete!=1 and t1.todelete2!=1 and t3.id=t1.player_id and t4.id=".encode($_GET["wantrole"])." and t1.site_id=".$subobj.($locat>0?' and t2.id IN ('.getlocatchild($locat).')':'');
-				}
-				elseif(encode($_GET["wantrole2"])!='') {
-					$query="SELECT t1.*, t2.name as locatname, t2.id as locatid, t3.sid, t3.nick, t3.fio, t3.hidesome, t4.name as vacancyname FROM ".$prefix."users t3, ".$prefix."roles t1 LEFT JOIN ".$prefix."roleslocat t2 ON t2.id=t1.locat LEFT JOIN ".$prefix."rolevacancy t4 ON t4.id=t1.vacancy WHERE (t2.rights!=1 || t1.locat='') and t1.todelete!=1 and t1.todelete2!=1 and t3.id=t1.player_id and t4.id=".encode($_GET["wantrole2"])." and t1.status=3 and t1.site_id=".$subobj.($locat>0?' and t2.id IN ('.getlocatchild($locat).')':'')." order by FIELD(t2.id, ".$alllocats_ids.")";
-
-					$query2="SELECT COUNT(t1.id) FROM ".$prefix."users t3, ".$prefix."roles t1 LEFT JOIN ".$prefix."roleslocat t2 ON t2.id=t1.locat LEFT JOIN ".$prefix."rolevacancy t4 ON t4.id=t1.vacancy WHERE (t2.rights!=1 || t1.locat='') and t1.todelete!=1 and t1.todelete2!=1 and t3.id=t1.player_id and t4.id=".encode($_GET["wantrole2"])." and t1.status=3 and t1.site_id=".$subobj.($locat>0?' and t2.id IN ('.getlocatchild($locat).')':'');
+					$query2="SELECT COUNT(t1.id) FROM ".$prefix."users t3, ".$prefix."roles t1 LEFT JOIN ".$prefix."roleslocat t2 ON t2.id=t1.locat LEFT JOIN ".$prefix."rolevacancy t4 ON t4.id=t1.vacancy WHERE (t2.rights!=1 || t1.locat='') and t1.todelete!=1 and $acceptedfilter t1.todelete2!=1 and t3.id=t1.player_id and t4.id=$wantrole and t1.site_id=".$subobj.($locat>0?' and t2.id IN ('.getlocatchild($locat).')':'');
 				}
 				else {
 					$query="SELECT t1.*, t2.name as locatname, t2.id as locatid, t3.sid, t3.nick, t3.fio, t3.hidesome, t4.name as vacancyname FROM ".$prefix."users t3, ".$prefix."roles t1 LEFT JOIN ".$prefix."roleslocat t2 ON t2.id=t1.locat LEFT JOIN ".$prefix."rolevacancy t4 ON t4.id=t1.vacancy WHERE (t2.rights!=1 || t1.locat='') and t1.todelete!=1 and t1.todelete2!=1 and t3.id=t1.player_id and t1.site_id=".$subobj.($locat>0?' and t2.id IN ('.getlocatchild($locat).')':'')." order by FIELD(t2.id, ".$alllocats_ids.")";
@@ -575,18 +566,11 @@ if($game!='')
 						$content2.='<b>Подать заявку на данную роль</b></a>';
 						$gotsmth=true;
 					}
-					if($b[0]>0 && $d["rights"]!=1 && !$showonlyacceptedroles) {
+					if($b[0]>0 && $d["rights"]!=1) {
 						if($gotsmth) {
 							$content2.=' | ';
 						}
-						$content2.='<a href="'.$server_absolute_path.'gameorders.php?game='.$subobj.'&orders=1&wantrole='.$id.'&css='.$css.'"><b>Поданные на роль заявки</b></a>';
-						$gotsmth=true;
-					}
-					if($e[0]>0 && $d["rights"]!=1) {
-						if($gotsmth) {
-							$content2.=' | ';
-						}
-						$content2.='<a href="'.$server_absolute_path.'gameorders.php?game='.$subobj.'&orders=1&wantrole2='.$id.'&css='.$css.'"><b>Принятые на роль заявки</b></a>';
+						$content2.='<a href="'.$server_absolute_path.'gameorders.php?game='.$subobj.'&orders=1&wantrole='.$id.'&css='.$css.'"><b>Заявки на роль </b></a>';
 						$gotsmth=true;
 					}
 					if($ord_admin) {
@@ -758,8 +742,11 @@ if($game!='')
 							$content2.=' rowspan='.$rows;
 						}
 						$content2.='>
-<a href="'.$server_absolute_path.'gameorders.php?game='.$subobj.'&id='.$a["id"].'&css='.$css.'">'.decode($a["name"]).$teamkolvo.'</a>
-</td>';
+<a href="'.$server_absolute_path.'gameorders.php?game='.$subobj.'&id='.$a["id"].'&css='.$css.'">'.decode($a["name"]).$teamkolvo.'</a>';
+if($ord_admin) {
+						$content2.=' (<a href="'.$server_absolute_path_site.'roles/'.$a["id"].'/site='.$subobj.'">изменить</a>)';
+					}
+$content2 .= '</td>';
 						if(decode($a["content"])!='') {
 							$content2.='
 <td class="roledescription"';
