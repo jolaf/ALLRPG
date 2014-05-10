@@ -1,4 +1,7 @@
 ﻿<?php
+
+require_once ($server_inner_path."appcode/data/roles_linked.php");
+
 function getlocatnotifications($locat) {
 	global
 		$prefix,
@@ -571,30 +574,10 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 			return $list;
 		}
 
-		function locatpath($id,$thislocat) {
-			global
-				$prefix,
-				$subobj;
-
-			$result=mysql_query("SELECT * FROM ".$prefix."roleslocat WHERE id=".$id." AND site_id=".$subobj);
-			$a=mysql_fetch_array($result);
-			if($a["id"]!='') {
-				if($a["parent"]==0) {
-					$return=' ('.decode($a["name"]);
-				}
-				else {
-					$return=locatpath($a["parent"]);
-					$return.=' –» '.decode($a["name"]);
-				}
-				if($thislocat) {
-					$return.=')';
-				}
-			}
-			else {
-				$return=' (локация не указана)';
-			}
-			return($return);
-		}
+		function locatpath($id) {
+      $return = implode ('→', get_location_path ($id, $_SESSION ['siteid']));
+      return $return ? "($return)" : '(не указана)';
+    }
 
 		$vacancy=Array();
 		$result2=mysql_query("SELECT * from ".$prefix."rolevacancy where site_id=".$subobj." and team='".$roletype."' ORDER by name asc, code asc");
