@@ -1534,12 +1534,12 @@ body {background-color: white; background: none;}
 
 		$obj_html=str_replace('<div class="indexer">', $ctrllinks.'<div class="indexer">', $obj_html);
 
-		$obj_html=str_replace('<a href="'.$curdir.$kind.'/'.$object.'/act=add" class="ctrlink">[+] добавить заявку</a>', '<a href="'.$curdir.$kind.'/'.$object.'/act=add&roletype=0" class="ctrlink">[+] добавить индивидуальную заявку</a>', $obj_html);
+		$obj_html=str_replace('<a href="'.$curdir.$kind.'/'.$object.'/act=add" class="ctrlink">[+] добавить заявку</a>', '<a href="'.$curdir.$kind.'/'.$object.'/act=add&roletype=0" class="ctrlink">[+] добавить заявку</a>', $obj_html);
 
-		$result=mysql_query("SELECT COUNT(id) FROM ".$prefix."rolefields WHERE team=1 and site_id=".$_SESSION["siteid"]);
+		$result=mysql_query("SELECT COUNT(id) FROM ".$prefix."rolefields WHERE team='1' and site_id=".$_SESSION["siteid"]);
 		$a = mysql_fetch_array($result);
 		if($a[0]>0) {
-			$obj_html=str_replace('<a href="'.$curdir.$kind.'/'.$object.'/act=add&roletype=0" class="ctrlink">[+] добавить индивидуальную заявку</a>', '<a href="'.$curdir.$kind.'/'.$object.'/act=add&roletype=0" class="ctrlink">[+] добавить индивидуальную заявку</a><a href="'.$curdir.$kind.'/'.$object.'/act=add&roletype=1" class="ctrlink">[+] добавить командную заявку</a>', $obj_html);
+			$obj_html=str_replace('<a href="'.$curdir.$kind.'/'.$object.'/act=add&roletype=0" class="ctrlink">[+] добавить заявку</a>', '<a href="'.$curdir.$kind.'/'.$object.'/act=add&roletype=0" class="ctrlink">[+] добавить индивидуальную заявку</a><a href="'.$curdir.$kind.'/'.$object.'/act=add&roletype=1" class="ctrlink">[+] добавить командную заявку</a>', $obj_html);
 		}
 	}
 
