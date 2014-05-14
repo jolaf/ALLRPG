@@ -310,17 +310,15 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 
 	$vacancy=Array();
 	$site_id = intval($_SESSION["siteid"]);
+	$vacancy_id = intval ($a_id['vacancy']);
 	$result2=db_query("
-    SELECT 
-    rv.id, rv.name, rv.locat, rv.kolvo, COUNT(r.id) AS present
-    from {$prefix}rolevacancy rv
-    left join {$prefix}roles r ON r.vacancy = rv.id
-    where
-      rv.site_id=$site_id 
-      and rv.team='$roletype' 
-      and (r.status IS NULL or r.status = 3)
-    GROUP BY rv.id, rv.name, rv.locat, rv.kolvo, rv.code
-    ORDER by rv.name asc, rv.code asc");
+     SELECT rv.id, rv.name, rv.locat, rv.kolvo, COUNT( r.id ) AS present 
+     FROM {$prefix}rolevacancy rv
+     LEFT  JOIN {$prefix}roles r ON r.vacancy = rv.id AND r.status =3
+     WHERE rv.site_id =$site_id AND rv.team =  '$roletype' 
+     GROUP  BY rv.id, rv.name, rv.locat, rv.kolvo, rv.code
+     ORDER  BY rv.name ASC , rv.code ASC
+     ");
 	while($b=mysql_fetch_array($result2))
 	{
 		$vacancy_text = $b["name"].' ('.locatpath($b["locat"]) . ')';
