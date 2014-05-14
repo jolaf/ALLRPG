@@ -339,6 +339,17 @@ function decodesafe($str) {
 	return $str;
 }
 #*************************************************************
+function decodefullbr($str) {
+	$str = str_replace("&open;","[",$str);
+	$str = str_replace("&close;","]",$str);
+	$str = str_replace("&#39","'",$str);
+	$str = str_replace("&quot;","\"",$str);
+	$str = str_replace("&gt;",">",$str);
+	$str = str_replace("&lt;","<",$str);
+	$str = str_replace("&br;","<br>",$str);
+	return $str;
+}
+#*************************************************************
 function encode_to_cp1251($str) {
 //	$encode=mb_detect_encoding($str,('UTF-8, WINDOWS-1251'));
 //	if($encode=='UTF-8') {

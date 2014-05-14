@@ -671,7 +671,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 				$link_text = '<b>«<a href="'.$server_absolute_path_site.'roleslinks/'.$b["id"].'/valuestype=0">' . $sujet_name . '</a>» — загруз (<a href="'.$link_to_zagruz.'/valuestype=1">изменить</a>) </b> <br> ' .
 				' <span style="font-size:70%;"> для ' . 
 				 substr($zagruz_for,0,strlen($zagruz_for)-2).' про ' . substr($zagruz_about,0,strlen($zagruz_about)-2).' (его видят: '.$dosee.')</span><br>'
-				. decode($c["content"]);
+				. decodefullbr($c["content"]);
 				
 				$alllinks.=$link_text . '<br>';
 			}

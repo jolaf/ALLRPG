@@ -819,7 +819,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 							$alllinks.='<i>скрыто</i>';
 						}
 						$alllinks.='</b><br>';
-						$alllinks.=decode($c["content"]);
+						$alllinks.=decodefullbr($c["content"]);
 						$alllinks.='<br><br>';
 					}
 				}
