@@ -15,7 +15,7 @@ function load_all_roles ($site_id, $team = FALSE)
       r.sorter, r.locat, r.allinfo, r.status, r.changed, r.todelete, r.todelete2, r.alltold, r.roleteamkolvo, r.signtochange, r.signtocomments, r.datesent, r.date,
       rv.name, rv.code, rv.kolvo, rv.autonewrole, rv.teamkolvo, rv.maybetaken, rv.taken, rv.content,
       u.sid, u.fio, u.nick, u.gender, u.em, u.em2, u.phone2, u.icq, u.skype, u.jabber, u.vkontakte, u.tweeter, u.livejournal, u.googleplus, u.facebook, u.photo,
-      u.login, 
+      u.login, u.medic,
       u.birth, u.city, u.sickness
     from {$prefix}roles r
     LEFT JOIN {$prefix}users u ON r.player_id = u.id

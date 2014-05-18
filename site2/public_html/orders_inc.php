@@ -21,7 +21,7 @@ $sites[]=Array(
 '.$a["date"].'
 );
 
-$roles_structure=Array(Array("allrpg_id",true),Array("site_id",true),Array("player"),Array("playerprofile"),Array("gender",true),Array("em"),Array("em2"),Array("phone2"),Array("icq"),Array("skype"),Array("jabber"),Array("birth"),Array("city"),Array("sickness"),Array("player_changed"),Array("team",true),Array("vacancy",true),Array("money"),Array("moneydone"),Array("sorter"),Array("locat",true),Array("allinfo"),Array("status",true),Array("todelete",true),Array("todelete2",true),Array("alltold"),Array("roleteamkolvo",true),Array("datesent"),Array("date",true));
+$roles_structure=Array(Array("allrpg_id",true),Array("site_id",true),Array("player"),Array("playerprofile"),Array("gender",true),Array("em"),Array("em2"),Array("phone2"),Array("icq"),Array("skype"),Array("jabber"),Array("birth"),Array("city"),Array("sickness"),array("medic"),Array("player_changed"),Array("team",true),Array("vacancy",true),Array("money"),Array("moneydone"),Array("sorter"),Array("locat",true),Array("allinfo"),Array("status",true),Array("todelete",true),Array("todelete2",true),Array("alltold"),Array("roleteamkolvo",true),Array("datesent"),Array("date",true));
 ';
 			$result=mysql_query("SELECT * from {$prefix}roles where site_id=".$_SESSION["siteid"]);
 			while($a=mysql_fetch_array($result)) {

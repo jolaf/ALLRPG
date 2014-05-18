@@ -5,6 +5,7 @@
 include_once($path.'db.inc');
 include_once($path.'classes_objects_allrpg.php');
 include_once($path.$direct.'/classes/classes_objects.php');
+require_once ($path."appcode/possible_values.php");
 
 session_start();
 start_mysql();
@@ -103,6 +104,15 @@ if(isset($_REQUEST["roles"])) {
 			'name'	=>	"sickness",
 			'sname'	=>	"Медицинские противопоказания",
 			'type'	=>	"textarea",
+			'read'	=>	1,
+			'write'	=>	100000,
+	);
+		$rolefields[]=Array(
+		'name'	=>	"medic",
+				'sname'	=>	"Медицинская квалификация",
+				'type'	=>	"select",
+				'values'	=>	get_possible_values ('medic'),
+				'help'	=>	'Указание медицинской квалификации в профиле позволит мастерам обратиться за помощью в экстренных случаях. Это актуально как на маленьких играх (где может не быть выделенного медика), так и на больших (где медик не всегда может быть в прямом доступе).',
 			'read'	=>	1,
 			'write'	=>	100000,
 	);

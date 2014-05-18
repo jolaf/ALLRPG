@@ -1,4 +1,6 @@
-﻿<?
+﻿<?php
+
+require_once ($server_inner_path."appcode/possible_values.php");
 
 if($_SESSION["user_id"]=="") {
 	if($action=="setbazecount") {
@@ -207,12 +209,23 @@ else
 				'name'	=>	"gender",
 				'sname'	=>	"Пол",
 				'type'	=>	"select",
-				'values'	=>	Array(Array('1','мужской'),Array('2','женский')),
+				'values'	=>	get_possible_values ('gender'),
 				'read'	=>	10,
 				'write'	=>	10,
 			)
 	);
 	$obj->setElem($obj_4);
+	
+	$obj->setElem(createElem(Array(
+				'name'	=>	"medic",
+				'sname'	=>	"Медицинская квалификация",
+				'type'	=>	"select",
+				'values'	=>	get_possible_values ('medic'),
+				'help'	=>	'Указание медицинской квалификации в профиле позволит мастерам обратиться за помощью в экстренных случаях. Это актуально как на маленьких играх (где может не быть выделенного медика), так и на больших (где медик не всегда может быть в прямом доступе).',
+				'read'	=>	10,
+				'write'	=>	10,
+			)
+	));
 
 	$obj_12=createElem(Array(
 				'name'	=>	"photo",
