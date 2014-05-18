@@ -1,5 +1,7 @@
 ﻿<?php
 if($_SESSION["user_id"]!='' && $workrights["site"]["roles"]) {
+require_once ($server_inner_path."appcode/data/roles_setup.php");
+require_once ($server_inner_path."appcode/data/common.php");
 	// сетка ролей
 
 	$result2=mysql_query("SELECT id, taken from ".$prefix."rolevacancy where site_id=".$_SESSION["siteid"]);
@@ -69,18 +71,44 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["roles"]) {
 		)
 	);
 	$obj->setElem($obj_1);
+	
+	$types_enabled = get_enabled_roles_types ($_SESSION["siteid"]);
+	
+	if ($id)
+	{
+    $v = get_vacancy ($id);
+    if ($v['team'])
+    {
+      $types_enabled [] = 'team';
+    }
+    else
+    {
+      $types_enabled [] = 'individual';
+    }
+	}
+	
+	$team_values = array();
+	if (in_array('individual', $types_enabled))
+	{
+    $team_values[] = Array('0','индивидуальная');
+	}
+	if (in_array('team', $types_enabled))
+	{
+    $team_values[] = Array('1','командная');
+	}
 
 	$obj_2=createElem(Array(
 			'name'	=>	"team",
 			'sname'	=>	"Тип",
 			'type'	=>	"select",
-			'values'	=>	Array(Array('0','индивидуальная'),Array('1','командная')),
+			'values'	=>	$team_values,
 			'default'	=>	0,
 			'read'	=>	10,
 			'write'	=>	100,
-			'help'	=>	'если Вы не <a href="'.$server_absolute_path_site.'rolessetup/">настроили поля заявок</a> соответствующего типа, пользователи не смогут подать на эту роль заявку.',
+			'help'	=>	'Вы можете создавать роли только тех типов, для которых настроены <a href="'.$server_absolute_path_site.'rolessetup/">поля заявок</a>',
 			'mustbe'	=>	true,
 		)
+
 	);
 	$obj->setElem($obj_2);
 
