@@ -1,8 +1,5 @@
 ﻿<?php
-	if($action=="exportroles") {
-    require 'orders_excel_inc.php';
-	}
-	elseif($action=="exporttooffline") {
+	if($action=="exporttooffline") {
 		$result=mysql_query("SELECT * from {$prefix}allrights2 where user_id=".$_SESSION['user_sid']." and site_id=".$_SESSION["siteid"]." and (rights=1 || rights=2)");
 		$a=mysql_fetch_array($result);
 		if($a["id"]!='' || $_SESSION["admin"]) {

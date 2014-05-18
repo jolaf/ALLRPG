@@ -1502,7 +1502,6 @@ body {background-color: white; background: none;}
       array ('export-xlsx-team', 'Excel командные'),
       //array ('export-html-single', 'HTML - индивидуальные'), // This modes are highly useful for debugging in PC without Excel, so I implement them. Probably not useful for user.
       //array ('export-html-team', 'HTML - командные'),
-      //array ('exportroles', 'Excel (старый режим)'), // This is "old" Excel export (Tab separated file). Should drop this when new Excel export provide
       );
       
 		$ctrllinks.='
