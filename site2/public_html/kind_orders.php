@@ -1,6 +1,7 @@
 ﻿<?php
 require_once ($server_inner_path."appcode/data/common.php");
 require_once ($server_inner_path."appcode/data/roles_linked.php");
+require_once ($server_inner_path."appcode/data/roles_notifications.php");
 
 if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 	// заявки игроков
@@ -8,23 +9,6 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 	if($id!='') {
 		$result=mysql_query("SELECT * FROM ".$prefix."roles WHERE id=".$id." and site_id=".$_SESSION["siteid"]);
 		$a_id = mysql_fetch_array($result);
-	}
-
-	function getlocatnotifications($locat) {
-		global
-			$prefix,
-			$subobj;
-
-		if($locat>0) {
-			$list.=" OR notifications LIKE '%-".$locat."-%'";
-
-			$result3=mysql_query("SELECT parent FROM ".$prefix."roleslocat WHERE site_id=".$subobj." and id=".$locat);
-			$c = mysql_fetch_array($result3);
-			if($c["parent"]>0) {
-				$list.=getlocatnotifications($c["parent"]);
-			}
-		}
-		return $list;
 	}
 
 	function getlocatparents($locat) {
@@ -915,11 +899,10 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 Заявка «'.decode($a["sorter"]).'» игрока «'.usname($b,true).'» была изменена мастером «'.$myname.'».
 Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$_SESSION["siteid"].' (вы должны быть залогинены на allrpg.info).';
 
-							$result2=mysql_query("SELECT * FROM ".$prefix."allrights2 WHERE site_id=".$_SESSION["siteid"]." AND (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a["locat"]).") AND signtochange='1' AND user_id!=".$_SESSION["user_sid"]);
-							while($b=mysql_fetch_array($result2)) {
-								$c=getuser_sid($b["user_id"]);
-								$contactemail=decode($c["em"]);
-								send_mail($myname, $myemail, $contactemail, $subject, $message);
+              $targets = get_notification_targets($_SESSION["siteid"], $a["locat"], 'signtochange', $_SESSION["user_sid"]);
+              foreach ($targets as $target)
+              {
+                send_mail($myname, $myemail, $target['em'], $subject, $message);
 							}
 						}
 						if($sendchangeplayer && $a["todelete"]!=1) {
@@ -998,16 +981,11 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 
 					$message='Добрый день.
 Заявка «'.decode($a["sorter"]).'» игрока «'.usname($b,true).'» была удалена мастером «'.$myname.'»';
-
-					$result2=mysql_query("SELECT * from ".$prefix."allrights2 WHERE site_id=".$_SESSION["siteid"]." and (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a_id["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a_id["locat"]).") AND signtochange='1' AND user_id!=".$_SESSION["user_sid"]);
-					while($b=mysql_fetch_array($result2)) {
-						$result3=mysql_query("SELECT * from ".$prefix."users where sid=".$b["user_id"]);
-						$c=mysql_fetch_array($result3);
-
-						$contactemail=decode($c["em"]);
-
-						send_mail($myname, $myemail, $contactemail, $subject, $message);
-					}
+          $targets = get_notification_targets($_SESSION["siteid"], $a["locat"], 'signtochange', $_SESSION["user_sid"]);
+          foreach ($targets as $target)
+          {
+            send_mail($myname, $myemail, $target['em'], $subject, $message);
+          }
 				}
 
 				if($a_id["todelete"]==1) {

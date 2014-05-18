@@ -1,23 +1,6 @@
 ﻿<?php
-
 require_once ($server_inner_path."appcode/data/roles_linked.php");
-
-function getlocatnotifications($locat) {
-	global
-		$prefix,
-		$subobj;
-
-	if($locat>0) {
-		$list.=" OR notifications LIKE '%-".$locat."-%'";
-
-		$result3=mysql_query("SELECT parent FROM ".$prefix."roleslocat WHERE site_id=".$subobj." and id=".$locat);
-		$c = mysql_fetch_array($result3);
-		if($c["parent"]>0) {
-			$list.=getlocatnotifications($c["parent"]);
-		}
-	}
-	return $list;
-}
+require_once ($server_inner_path."appcode/data/roles_notifications.php");
 
 if($_SESSION["user_id"]!="") {
 	$result2=mysql_query("SELECT * FROM ".$prefix."users where id=".$_SESSION["user_id"]);
@@ -203,12 +186,11 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 
 '.decode($comment_content);
 
-						$result2=mysql_query("SELECT * FROM ".$prefix."allrights2 WHERE site_id=".$a["site_id"]." AND (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a["locat"]).") AND signtocomments='1'");
-						while($b=mysql_fetch_array($result2)) {
-							$c=getuser_sid($b["user_id"]);
-							$contactemail=decode($c["em"]);
-							send_mail($myname, $myemail, $contactemail, $subject, $message);
-						}
+            $targets = get_notification_targets($a["site_id"], $a["locat"], 'signtocomments');
+            foreach ($targets as $target)
+            {
+              send_mail($myname, $myemail, $target['em'], $subject, $message);
+            }
 						dynamic_err(array('success',"Комментарий успешно добавлен, мастерам отправлено e-mail уведомление."),'stayhere');
 					}
 					$comment_content='';
@@ -1048,13 +1030,11 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 							}
 							$message=str_replace(array('<br>','<br />'),'
 ',$message);
-							$result=mysql_query("SELECT * FROM ".$prefix."allrights2 WHERE site_id=".$site["id"]." AND (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a_id["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a_id["locat"]).") AND signtonew='1'");
-							while($a=mysql_fetch_array($result))
-							{
-								$d=getuser_sid($a["user_id"]);
-								$contactemail=decode($d["em"]);
-								send_mail($myname, $myemail, $contactemail, $subject, $message);
-							}
+              $targets = get_notification_targets($site["id"], $a_id["locat"], 'signtonew');
+              foreach ($targets as $target)
+              {
+                send_mail($myname, $myemail, $target['em'], $subject, $message);
+              }
 						}
 
 						if($site["oneorderfromplayer"]=='1') {
@@ -1160,14 +1140,11 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 '.$message2;
 								$message=str_replace(array('<br>','<br />'),'
 ',$message);
-								$result2=mysql_query("SELECT * FROM ".$prefix."allrights2 WHERE site_id=".$subobj." AND (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a_id["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a_id["locat"]).") AND signtochange='1'");
-								while($b=mysql_fetch_array($result2)) {
-									$c=getuser_sid($b["user_id"]);
-
-									$contactemail=decode($c["em"]);
-
-									send_mail($myname, $myemail, $contactemail, $subject, $message);
-								}
+                $targets = get_notification_targets($subobj, $a_id["locat"], 'signtochange');
+                foreach ($targets as $target)
+                {
+                  send_mail($myname, $myemail, $target['em'], $subject, $message);
+                }
 							}
 
 							mysql_query("UPDATE ".$prefix."roles SET changed=".$_SESSION['user_id']." WHERE id=".$id);
@@ -1221,15 +1198,11 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 Вам необходимо либо подтвердить ее окончательно удаление, либо передать ее другому игроку.
 Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$a["site_id"].' (вы должны быть залогинены на allrpg.info).';
 
-							$result2=mysql_query("SELECT * FROM ".$prefix."allrights2 WHERE site_id=".$a["site_id"]." AND (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a["locat"]).") AND signtochange='1'");
-							while($b=mysql_fetch_array($result2)) {
-								$result3=mysql_query("SELECT * from ".$prefix."users where sid=".$b["user_id"]);
-								$c=mysql_fetch_array($result3);
-
-								$contactemail=decode($c["em"]);
-
-								send_mail($myname, $myemail, $contactemail, $subject, $message);
-							}
+            $targets = get_notification_targets($a["site_id"], $a["locat"], 'signtochange');
+            foreach ($targets as $target)
+            {
+              send_mail($myname, $myemail, $target['em'], $subject, $message);
+            }
 							redirect_construct();
 							dynamic_err(array(array('success',"Заявка удалена, мастерам отправлено e-mail оповещение.")),$redirect_path);
 						}

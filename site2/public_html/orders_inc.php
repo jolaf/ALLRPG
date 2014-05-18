@@ -778,6 +778,13 @@ $rolefields[]=Array(
 				err_red("Заблокировано повторное сохранение комментария.");
 			}
 			else {
+        $targets = get_notification_targets($_SESSION["siteid"], $a["locat"], 'signtocomments', $_SESSION["user_sid"]);
+        $target_emails = array();
+        foreach ($targets as $target)
+        {
+          $target_emails[] = $target['em'];
+        }
+        
 				require_once($server_inner_path.$direct."/classes/base_mails.php");
 				$result=mysql_query("SELECT * from {$prefix}roles where id=".$id." and site_id=".$_SESSION["siteid"]);
 				$a=mysql_fetch_array($result);
@@ -805,8 +812,9 @@ $rolefields[]=Array(
 Ссылка: '.$server_absolute_path.'order/'.$id.'/ (вы должны быть залогинены на allrpg.info).';
 
 					send_mail($myname, $myemail, $contactemail, $subject, $message);
+				
 
-					err("Комментарий успешно добавлен, игроку отправлено e-mail оповещение.");
+					err("Комментарий успешно добавлен, игроку отправлено e-mail оповещение. Уведомлены: " . implode(', ', $target_emails));
 				}
 				elseif($comment_type==1 && $a["todelete"]==1) {
 					err_red("Комментарий не записан, т.к. игрок удалил у себя эту заявку.");
@@ -815,7 +823,7 @@ $rolefields[]=Array(
 					mysql_query("INSERT into {$prefix}rolescomments (site_id, role_id, user_id, type, content, date) values (".$_SESSION["siteid"].", ".$id.", ".$_SESSION["user_id"].", ".$comment_type.", '".$comment_content."', ".time().")");
 					$comment_id=mysql_insert_id($link);
 					mysql_query("INSERT into {$prefix}rolescommentsread (role_id, user_id, comment_id, date) values (".$id.", ".$_SESSION["user_id"].", ".$comment_id.", ".time().")");
-					err("Комментарий успешно добавлен, отправлены e-mail оповещения.");
+					err("Комментарий успешно добавлен, отправлены e-mail оповещения. Уведомлены: " . implode(', ', $target_emails));
 				}
 
     			$result6=mysql_query("SELECT * from {$prefix}users where id=".$_SESSION['user_id']);
@@ -838,15 +846,10 @@ $rolefields[]=Array(
 
 Ссылка: '.$server_absolute_path_site.'orders/'.$id.'/site='.$_SESSION["siteid"];
 
-				$result2=mysql_query("SELECT * FROM {$prefix}allrights2 WHERE site_id=".$_SESSION["siteid"]." AND (rights=1 OR rights=2) AND (locations='-' OR locations='' OR locations LIKE '%-0-%' OR locations LIKE '%-".$a["locat"]."-%') AND (notifications IS NULL OR notifications='-' OR notifications='' OR notifications LIKE '%-0-%'".getlocatnotifications($a["locat"]).") AND signtocomments='1' AND user_id!=".$_SESSION["user_sid"]);
-				while($b=mysql_fetch_array($result2)) {
-					$result3=mysql_query("SELECT * from {$prefix}users where sid=".$b["user_id"]);
-					$c=mysql_fetch_array($result3);
-
-					$contactemail=decode($c["em"]);
-
-					send_mail($myname, $myemail, $contactemail, $subject, $message);
-				}
+        foreach ($target_emails as $contactemail)
+        {
+          send_mail($myname, $myemail, $contactemail, $subject, $message);
+        }
 			}
 			$comment_content='';
 			$comment_type=0;

@@ -16,6 +16,17 @@ function role_linked_hint_single()
 
 function get_location_path ($location_id, $site_id)
 {
+  $locations = get_locations_to_root ($location_id, $site_id);
+  $names = array();
+  foreach ($locations as $location)
+  {
+    $names[] = $location ['name'];
+  }
+  return $names;
+}
+
+function get_locations_to_root ($location_id, $site_id)
+{
   //TODO: implement caching
   global $prefix;
 	
@@ -30,8 +41,8 @@ function get_location_path ($location_id, $site_id)
 		$result = db_get_row ("SELECT id, parent, name FROM {$prefix}roleslocat WHERE id=$location_id and site_id=$site_id");
 		
 		if($result["id"]) {
-      $return =  $result["parent"] ? get_location_path ($result["parent"], $site_id) : array();
-			$return [] = decode($result["name"]);
+      $return =  $result["parent"] ? get_locations_to_root ($result["parent"], $site_id) : array();
+			$return [] = array('id' => intval($result['id']), 'parent' => intval($result['parent']), 'name' => decode($result["name"]));
 		}
 		else {
 			return array();
