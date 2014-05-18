@@ -224,6 +224,8 @@ elseif((($getsite>0 || encode($_COOKIE["siteid"])>0) && $getsite!='exit') && $_S
 				'roles'=>'Сетка ролей',
 				'locations'=>'Локации<br>(команды)',
 				'exit'=>'Выйти из проекта',
+				'block_4'=>'Отчеты',
+				'gamereport' => 'Отчет по игрокам',
 			));
 		}
 		if($rights[3]) {
