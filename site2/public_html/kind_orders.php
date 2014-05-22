@@ -847,6 +847,7 @@ if(($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) || $_SESSION["adm
 					if($sorter=='') {
 						$sorter=$vacname;
 					}
+					$sorter=mysql_real_escape_string($sorter);
 					mysql_query("UPDATE ".$prefix."roles SET sorter='".$sorter."', changed=".$_SESSION['user_id'].", status=1, money='".$a["money"]."', player_id=".$_SESSION['user_id'].", todelete=0, datesent='".$b["date"]."' WHERE id=".$id);
 				}
 
@@ -941,6 +942,7 @@ if(($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) || $_SESSION["adm
 						if($sorter=='') {
 							$sorter=$vacname;
 						}
+						$sorter=mysql_real_escape_string($sorter);
 						mysql_query("UPDATE ".$prefix."roles SET sorter='".$sorter."' where id=".$id);
 
 						if($vac_changed) {
