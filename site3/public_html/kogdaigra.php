@@ -3,40 +3,28 @@
 	
 include_once("$path/db.inc");
 include_once("$path/classes_objects_allrpg.php");
+require_once("$path/appcode/data/common.php");
 
 $datestart = encode($_GET['datestart']);
 $datefinish = encode($_GET['datefinish']);
 $game_id = encode($_GET['game_id']);
 $open_list = encode($_GET['open_list']);
 
+start_mysql();
+# Установление соединения с MySQL-сервером
+
 if(isset($datestart) && $datestart!='' && isset($datefinish) && $datefinish!='')
 {
-	start_mysql();
-	# Установление соединения с MySQL-сервером
-
-	$content='[';
-	$result=mysql_query("SELECT * FROM ".$prefix."allgames WHERE ((datestart <= '".$datestart."' AND datefinish >= '".$datefinish."') OR (datestart >= '".$datestart."' AND datefinish <= '".$datefinish."')) AND parent=0 order by name");
+  $datestart = mysql_real_escape_string($datestart);
+  $datefinish = mysql_real_escape_string($datefinish);
+	$result=db_query("SELECT id, name, kogdaigra_id FROM {$prefix}allgames WHERE ((datestart BETWEEN '$datestart' AND '$datefinish') OR (datefinish BETWEEN '$datestart' AND '$datefinish')) AND parent=0 order by name");
+	$games = array();
 	while($a = mysql_fetch_array($result)) {
-		$content.='{"allrpg_info_id":"'.$a["id"].'","allrpg_info_name":"'.str_replace('"','\\"',decode($a["name"])).'"},';
+		$games [] = array('allrpg_info_id' => $a['id'],  "allrpg_info_name" => str_replace('"','\\"',decode($a["name"])), 'kogdaigra_id' => $a['kogdaigra_id']);
 	}
-	if(strlen($content)>1) {
-		$content=substr($content,0,strlen($content)-1);
-	}
-	$content.=']';
-
-	header('Access-Control-Allow-Origin: *');
-	header("Content-Type: text/html;charset=UTF-8");
-
-	print($content);
-	# Вывод основного содержания страницы
-
-	stop_mysql();
-	# Разрыв соединения с MySQL-сервером
+	$content = json_encode ($games);
 }
 elseif(isset($game_id) && $game_id!='') {
-    start_mysql();
-	# Установление соединения с MySQL-сервером
-
 	$content='{';
 	$result=mysql_query("SELECT * FROM ".$prefix."allgames WHERE id=".$game_id);
 	$a = mysql_fetch_array($result);
@@ -65,21 +53,9 @@ elseif(isset($game_id) && $game_id!='') {
 		$content=substr($content,0,strlen($content)-1);
 	}
 	$content.=']}';
-
-	header('Access-Control-Allow-Origin: *');
-	header("Content-Type: text/html;charset=UTF-8");
-
-	print($content);
-	# Вывод основного содержания страницы
-
-	stop_mysql();
-	# Разрыв соединения с MySQL-сервером
 }
 
 elseif(isset($open_list) && $open_list!='') {
-    start_mysql();
-	# Установление соединения с MySQL-сервером
-
 	$content='[';
 	$result=mysql_query("SELECT * FROM ".$prefix."sites where status2=2 and testing!='1' and datefinish>='".date("Y-m-d")."' order by title asc");
 	while($a = mysql_fetch_array($result)) {
@@ -89,8 +65,9 @@ elseif(isset($open_list) && $open_list!='') {
 		$content=substr($content,0,strlen($content)-1);
 	}
 	$content.=']';
+}
 
-	header('Access-Control-Allow-Origin: *');
+  header('Access-Control-Allow-Origin: *');
 	header("Content-Type: text/html;charset=UTF-8");
 
 	print($content);
@@ -98,5 +75,4 @@ elseif(isset($open_list) && $open_list!='') {
 
 	stop_mysql();
 	# Разрыв соединения с MySQL-сервером
-}
 ?>
