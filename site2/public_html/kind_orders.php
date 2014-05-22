@@ -4,7 +4,7 @@ require_once ($server_inner_path."appcode/data/roles_linked.php");
 require_once ($server_inner_path."appcode/data/roles_notifications.php");
 require_once ($server_inner_path."appcode/possible_values.php");
 
-if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
+if(($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) || $_SESSION["admin"]) {
 	// заявки игроков
 
 	if($id!='') {
