@@ -4,6 +4,11 @@ if($bazecount=='') {
 	$bazecount=50;
 }
 
+if ($_GET['act'] == 'add')
+{
+  redirect('http://kogda-igra.ru/edit/game/?from_allrpg');
+}
+
 $game_iddef=encode($_GET["game"]);
 
 //мои события в базе
