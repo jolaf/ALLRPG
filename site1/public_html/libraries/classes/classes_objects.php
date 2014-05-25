@@ -503,7 +503,7 @@ class netBaseElem {
     $type = $this -> getType();
     return $type!="h1" && $type!="file" && $type!="timestamp" && $type!="hidden";
 	}
-
+	
 	function netBaseElem($params) {
 		$this->setName($params["name"]);
 		$this->setSname($params["sname"]);
@@ -533,6 +533,10 @@ class netBaseElem {
 
 	function draw() {
 		die("Cannot draw base element.");
+	}
+	
+	function drawForGrid ($value) {
+    return decode2 ($value);
 	}
 }
 
@@ -600,6 +604,7 @@ class netH1 extends netBaseElem {
 
 class netTimeStamp extends netBaseElem {
 	var $show; //показывать ли данный таймстамп в соответствующей своей колонке при представлении данных объекта в виде типа 1?
+	var $formatString; // Format string for date(..)
 
 	function setVal($a,$post,$linenum) {
 		$value='';
@@ -617,7 +622,7 @@ class netTimeStamp extends netBaseElem {
 	function setShow($show) {
 		$this->show=$show;
 	}
-
+	
 	function getShow() {
 		return ($this->show);
 	}
@@ -625,7 +630,13 @@ class netTimeStamp extends netBaseElem {
 	function netTimeStamp($params) {
 		$this->netBaseElem($params);
 		$this->setShow($params["show"]);
+		$this -> formatString = (array_key_exists('formatString', $params)) ? $params['formatString'] : "d.m.Y H:i";
 	}
+	
+	function drawForGrid($value) {
+    $format_string = $this -> formatString;
+    return date($this -> formatString, $value);
+  }
 
 	function draw($type, $can, $linenum) {
 		if($can=="write")

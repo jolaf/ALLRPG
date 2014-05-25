@@ -893,29 +893,7 @@ function dynamiccreate($obj) {
 												}
 												else
 												{
-													if($v->getType()=="checkbox")
-													{
-														if($a[$show[$i]]==1)
-														{
-															$ss.='<font color="green"><b>&#8730</b></font>';
-														}
-														else
-														{
-															$ss.='<font color="red"><b>X</b></font>';
-														}
-													}
-													elseif($v->getType()=="calendar")
-													{
-														$ss.=date("d.m.Y",strtotime($a[$show[$i]]));
-													}
-													elseif($v->getType()=="timestamp")
-													{
-														$ss.=date("d.m.Y",$a[$show[$i]]).' '.date("H:i",$a[$show[$i]]);
-													}
-													else
-													{
-														$ss.=decode2($a[$show[$i]]);
-													}
+													$ss .= $v -> drawForGrid ($a[$show[$i]]);
 												}
 											}
 											$ss.='</b>';
@@ -998,29 +976,7 @@ function dynamiccreate($obj) {
 														}
 														else
 														{
-															if($v->getType()=="checkbox")
-															{
-																if($a[$show2[$i]]==1)
-																{
-																	$ss.='<font color="green"><b>&#8730</b></font>';
-																}
-																else
-																{
-																	$ss.='<font color="red"><b>X</b></font>';
-																}
-															}
-															elseif($v->getType()=="calendar")
-															{
-																$ss.=date("d.m.Y",strtotime($a[$show2[$i]]));
-															}
-															elseif($v->getType()=="timestamp")
-															{
-																$ss.=date("d.m.Y",$a[$show2[$i]]).' '.date("H:i",$a[$show2[$i]]);
-															}
-															else
-															{
-																$ss.=decode2($a[$show2[$i]]);
-															}
+															$ss .= $v -> drawForGrid ($a[$show2[$i]]);
 														}
 													}
 													$ss.='</b>';
@@ -1103,29 +1059,7 @@ function dynamiccreate($obj) {
 												}
 												else
 												{
-													if($v->getType()=="checkbox")
-													{
-														if($a[$show2[$i]]==1)
-														{
-															$ss.='<font color="green"><b>&#8730</b></font>';
-														}
-														else
-														{
-															$ss.='<font color="red"><b>X</b></font>';
-														}
-													}
-													elseif($v->getType()=="calendar")
-													{
-														$content.=date("d.m.Y",strtotime($a[$show2[$i]]));
-													}
-													elseif($v->getType()=="timestamp")
-													{
-														$ss.=date("d.m.Y",$a[$show2[$i]]).' '.date("H:i",$a[$show2[$i]]);
-													}
-													else
-													{
-														$ss.=decode2($a[$show2[$i]]);
-													}
+                          $ss .= $v -> drawForGrid ($a[$show2[$i]]);
 												}
 											}
 											$ss.='</b>';
@@ -1209,29 +1143,7 @@ function dynamiccreate($obj) {
 										}
 										else
 										{
-											if($v->getType()=="checkbox")
-											{
-												if($a[$show[$i]]==1)
-												{
-													$content.='<font color="green"><b>&#8730</b></font>';
-												}
-												else
-												{
-													$content.='<font color="red"><b>X</b></font>';
-												}
-											}
-											elseif($v->getType()=="calendar")
-											{
-												$content.=date("d.m.Y",strtotime($a[$show[$i]]));
-											}
-											elseif($v->getType()=="timestamp")
-											{
-												$content.=date("d.m.Y",$a[$show[$i]]).' '.date("H:i",$a[$show[$i]]);
-											}
-											else
-											{
-												$content.=decode2($a[$show[$i]]);
-											}
+											$content .= $v -> drawForGrid ($a[$show[$i]]);
 										}
 									}
 									break;

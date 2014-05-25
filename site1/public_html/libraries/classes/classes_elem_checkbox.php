@@ -24,23 +24,25 @@ class netCheckbox extends netBaseElem {
 		$this->netBaseElem($params);
 	}
 
+	function drawSymbol($value)
+	{
+    return $value ? '<font color="green"><b>&#8730</b></font>' : '<font color="red"><b>X</b></font>';
+	}
+	
+	
+	function drawForGrid($value) {
+    return $this -> drawSymbol($value);
+  }
+
 	function draw($type, $can, $linenum) {
 		if($can=="write")
 		{
-			$content.=$this->trueDraw($linenum);
+			return $this->trueDraw($linenum);
 		}
 		else
 		{
-			if($this->getVal()==1)
-			{
-				$content.='<font color="green"><b>&#8730</b></font>';
-			}
-			else
-			{
-				$content.='<font color="red"><b>X</b></font>';
-			}
+      return $this -> drawSymbol($value);
 		}
-		return($content);
 	}
 
 	function trueDraw($linenum) {

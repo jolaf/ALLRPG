@@ -1,6 +1,8 @@
 ﻿<?php
 
 class netCalendar extends netBaseElem {
+  var $formatString; 
+  
 	function setVal($a,$post,$linenum) {
 		$value='';
 		$name=$this->getName();
@@ -23,21 +25,28 @@ class netCalendar extends netBaseElem {
 	function getVal() {
 		if($this->getValue()!='' && $this->getValue()!='0000-00-00' && $this->getValue()!='01.01.1970')
 		{
-			return(date("d.m.Y",strtotime($this->getValue())));
+			return(date($this -> formatString,strtotime($this->getValue())));
 		}
 		else
 		{
-			return(date("d.m.Y",strtotime($this->getDefault())));
+			return(date($this -> formatString,strtotime($this->getDefault())));
 		}
 	}
 
 	function netCalendar($params) {
 		$this->netBaseElem($params);
+		$this -> formatString = (array_key_exists('formatString', $params)) ? $params['formatString'] : "d.m.Y";
 		if($params["default"]=='')
 		{
-			$this->setDefault(date("d.m.Y"));
+			$this->setDefault(date($this -> formatString));
 		}
+		
 	}
+
+	function drawForGrid($value) {
+    $format_string = $this -> formatString;
+    return date($this -> formatString, strtotime($value));
+  }
 
 	function draw($type, $can, $linenum) {
 		if($can=="write") {
@@ -47,7 +56,7 @@ class netCalendar extends netBaseElem {
 		{
 			$linkatbegin=$this->getLinkAtBegin();
 			$linkatend=$this->getLinkAtEnd();
-			$content.=$linkatbegin.date("d.m.Y",strtotime($this->getVal())).$linkatend;
+			$content.=$linkatbegin.date($this -> formatString,strtotime($this->getVal())).$linkatend;
 		}
 		return($content);
 	}
@@ -66,7 +75,7 @@ class netCalendar extends netBaseElem {
 			$linenum='';
 		}
 
-		$value2=date("d.m.Y", strtotime($value));
+		$value2=date($this -> formatString, strtotime($value));
 		$content.='<input type="text" name="'.$name.$linenum.'" class="dpkr" value="'.$value2.'" />';
 
 		return($content);
