@@ -619,11 +619,7 @@
 		    	else {
 			    	if(typeof jsonData['errors']!='undefined') {
 			    		for(var key in jsonData['errors']) {
-							var tmt=jsonData['errors'][key][1].length*25;
-							if(tmt<5000) {
-								tmt=5000;
-							}
-							noty({text: jsonData['errors'][key][1],type:jsonData['errors'][key][0],timeout:tmt});
+							noty({text: jsonData['errors'][key][1],type:jsonData['errors'][key][0],timeout:false});
 						}
 			    	}
 			    	$('.red').removeClass('red');
@@ -672,11 +668,7 @@
 				    	else {
 					    	if(typeof jsonData['errors']!='undefined') {
 					    		for(var key in jsonData['errors']) {
-									var tmt=jsonData['errors'][key][1].length*25;
-									if(tmt<5000) {
-										tmt=5000;
-									}
-									noty({text: jsonData['errors'][key][1],type:jsonData['errors'][key][0],timeout:tmt});
+									noty({text: jsonData['errors'][key][1],type:jsonData['errors'][key][0],timeout:false});
 								}
 					    	}
 						}
@@ -879,11 +871,7 @@ function showHelpAndName(name) {
 
 function show_errors() {
 	for(var key in errors) {
-		var tmt=errors[key][1].length*25;
-		if(tmt<5000) {
-			tmt=5000;
-		}
-		noty({text: errors[key][1],type:errors[key][0],timeout:tmt});
+		noty({text: errors[key][1],type:errors[key][0],timeout:false});
 	}
     errors=[];
 }
