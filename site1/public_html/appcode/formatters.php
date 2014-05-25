@@ -24,4 +24,15 @@ function phone_formatter_raw ($phone)
   return  $phone; 
 }
 
+
+function name_as_master_formatter_row ($row, $options) //Master should always ignore 'hidesome'
+{
+  $sid = strpos($options, 'skipsid') !== FALSE ? '' : $row['sid'];
+  $fio = $row['fio'];
+  $nick = $row['nick'] ? "({$row['nick']})" : '';
+  $parts = array_filter( //Remove empty elements
+    array($fio, $nick, $sid));
+  return implode (' ',  $parts);
+}
+
 ?>

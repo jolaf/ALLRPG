@@ -3,6 +3,7 @@ require_once ($server_inner_path."appcode/data/common.php");
 require_once ($server_inner_path."appcode/data/roles_linked.php");
 require_once ($server_inner_path."appcode/data/roles_notifications.php");
 require_once ($server_inner_path."appcode/possible_values.php");
+require_once ($server_inner_path."appcode/formatters.php");
 
 if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 	// заявки игроков
@@ -131,28 +132,51 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
       $change_username = 'игрок';
     }
 
-		$allchanged[]=Array($a["date"],date("d.m.Y H:i", $target_date).'<br>'.$change_username);
+		$allchanged[]=Array($a["date"],date("d.m.Y", $target_date).' '.$change_username);
 		$allchanged_sort[]=target_date;
 	}
 	array_multisort($allchanged_sort, SORT_ASC, $allchanged);
+	
+	$id_condtion = $id ? " AND id = $id " : ''; // If single mode, load only required for this role.
 
-	$result=mysql_query("SELECT DISTINCT u.*, g1.name AS g_city, g2.name AS g_area
+	$result=db_query("SELECT DISTINCT u.*, g1.name AS g_city, g2.name AS g_area
 	FROM
 		(
-			SELECT player_id AS ID1 FROM ".$prefix."roles WHERE site_id = ".$_SESSION["siteid"]."
+			SELECT player_id AS ID1 FROM ".$prefix."roles WHERE site_id = {$_SESSION["siteid"]} $id_condition
 			UNION
-			SELECT CHANGED AS ID1 FROM ".$prefix."roles WHERE site_id = ".$_SESSION["siteid"]."
+			SELECT CHANGED AS ID1 FROM ".$prefix."roles WHERE site_id = {$_SESSION["siteid"]} $id_condition
 		) T
 		INNER JOIN ".$prefix."users u ON u.id = T.ID1
 		LEFT JOIN ".$prefix."geography g1 ON g1.id = u.city
 		LEFT JOIN ".$prefix."geography g2 ON g2.id = g1.parent");
+		
+		function apf ($columnname, $prefix = FALSE, $uri_start = '')
+		{
+      global $a;
+      if (!$a[$columnname])
+      {
+        return '';
+      }
+      $prefix = $prefix !== FALSE ? "$prefix" : $columnname;
+      if ($prefix)
+      {
+        $prefix .= ': ';
+      }
+      $decoded = decode($a[$columnname]);
+      $val = $uri_start ? "<a href='{$uri_start}{$decoded}'>$decoded</a>" : $decoded;
+      return "$prefix$val";
+		}
 
 	while($a = mysql_fetch_array($result)) {
 		$allusers[]=Array($a["id"],usname($a,true));
-		$allusers2[]=Array($a["id"],usname2($a,true));
+		$allusers2[]=Array($a["id"], name_as_master_formatter_row ($a));
 		$allusers3[]=Array($a["id"],usname($a,true,true));
 		
-		$allusers4[]=Array($a["id"],($a["photo"]!=''?'<img src="'.$server_absolute_path.$uploads[4]["path"].$a["photo"].'">':'').usname($a,true,true).', ИНП '.$a["sid"].', '.($a["gender"]==2?'женщина':'мужчина').', дата рождения '.date("d.m.Y", strtotime($a["birth"])).', '.decode($a["g_city"]).', '.decode($a["g_area"]).'<br /><br />'.(($a["em"]!='')?'<a href="mailto:'.decode($a["em"]).'">'.decode($a["em"]).'</a>':''). (($a["em"]!=''&&(($a["em2"]!='')||$a["phone2"]!=''||$a["icq"]!=''||$a["skype"]!=''||$a["jabber"]!='')?', ':'')).(($a["em2"]!='')?'<a href="mailto:'.decode($a["em2"]).'">'.decode($a["em2"]).'</a>':'').(($a["em2"]!=''&&($a["phone2"]!=''||$a["icq"]!=''||$a["skype"]!=''||$a["jabber"]!='')?', ':'')).($a["phone2"]!=''?'тел: '.decode($a["phone2"]):'').($a["phone2"]!=''&&($a["icq"]!=''||$a["skype"]!=''||$a["jabber"]!='')?', ':'').($a["icq"]!=''?'ICQ: '.decode($a["icq"]):'').($a["icq"]!=''&&($a["skype"]!=''||$a["jabber"]!='')?', ':'').($a["skype"]!=''?'skype: '.decode($a["skype"]):'').($a["skype"]!=''&&($a["jabber"]!='')?', ':'').($a["jabber"]!=''?'jabber: '.decode($a["jabber"]):''));
+		$vals = array_filter (array (apf('em', '', 'mailto:'), apf('em2', '', 'mailto:'), apf('phone2', 'тел'), apf('icq', 'ICQ'), apf('skype'), apf('jabber')));
+		
+		$ss = ($a["photo"]!=''?'<img src="'.$server_absolute_path.$uploads[4]["path"].$a["photo"].'">':'').usname($a,true,true).', ИНП '.$a["sid"].', '.($a["gender"]==2?'женщина':'мужчина').', дата рождения '.date("d.m.Y", strtotime($a["birth"])).', '.decode($a["g_city"]).', '.decode($a["g_area"]).'<br /><br />'. implode(', ', $vals);
+		
+		$allusers4[]=Array($a["id"], $ss);
 	}
 	foreach ($allusers as $key => $row)
 	{
@@ -165,6 +189,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 	}
 
     if(($id==0 && $act!="add") || ($id!=0 && $act=="delete")) {
+    //TODO rewrite this as single request
     	$result=mysql_query("SELECT * from ".$prefix."roles where site_id=".$_SESSION["siteid"]);
 		while($a=mysql_fetch_array($result)) {
         	if($a["vacancy"]!=0) {
@@ -419,6 +444,7 @@ if($_SESSION["user_id"]!='' && $workrights["site"]["orders"]) {
 		$mainfields[]=Array(
 				'name'	=>	"datesent",
 				'sname'	=>	"Создана",
+				'formatString' => 'd.m.Y',
 				'type'	=>	"timestamp",
 				'read'	=>	10,
 				'write'	=>	100000,
