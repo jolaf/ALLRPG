@@ -767,12 +767,16 @@
 		}
 	);
 
+//	29.05.2014
+//	https://basecamp.com/1947146/projects/1949791/todos/103946530
 	if('.login .messages_count'.length) {
+/*	
 		setInterval(function() {
 			var htm=$('.login .text').html();
 			$('.login .text').html($('.login .messages_count').html());
 			$('.login .messages_count').html(htm);
 		},5000);
+*/
 	}
 
     scaleFont();

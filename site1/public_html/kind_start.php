@@ -159,7 +159,7 @@ else {
 </form>
 </div>
 <div id="login_remind">
-<form action="'.$server_absolute_path.'/" method="post" enctype="multipart/form-data" id="remind_form">
+<form action="'.$server_absolute_path.'" method="post" enctype="multipart/form-data" id="remind_form">
 <input type="hidden" name="action" value="remind">
 <input type="text" id="em" name="em" placehold="Ваш е-mail"><br>
 <button class="main" id="btn_make_remind">восстановить</button>
