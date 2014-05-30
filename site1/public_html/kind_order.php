@@ -982,6 +982,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 							if($sorter=='') {
 								$sorter=$vacname;
 							}
+							$sorter=mysql_real_escape_string($sorter);
 							mysql_query("UPDATE ".$prefix."roles SET sorter='".$sorter."', changed=".$_SESSION['user_id'].", status=1, money='".$site["money"]."', player_id=".$_SESSION['user_id'].", todelete=0, datesent='".$a_id["date"]."' WHERE id=".$id);
 
 							// отправляем уведомления мастерам
@@ -1160,6 +1161,7 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 							if($sorter=='') {
 								$sorter=$vacname;
 							}
+							$sorter=mysql_real_escape_string($sorter);
 							mysql_query("UPDATE ".$prefix."roles SET sorter='".$sorter."' WHERE id=".$id);
 
 							if($vac_changed) {
