@@ -586,10 +586,10 @@ if($_SESSION["user_id"]!="" || $act=="add") {
 
 		if($history!=1) {
 			$mainfields[]=Array(
-					'name'	=>	"site_id",
+					'name'	=>	"site_title",
 					'sname'	=>	"Проект",
-					'type'	=>	"select",
-					'values'	=>	make5field($prefix."sites","id","title"),
+					'type'	=>	"text",
+					'default'	=>	$sitetitle,
 					'read'	=>	1,
 					'write'	=>	100000,
 			);
