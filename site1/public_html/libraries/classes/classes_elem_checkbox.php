@@ -41,7 +41,7 @@ class netCheckbox extends netBaseElem {
 		}
 		else
 		{
-      return $this -> drawSymbol($value);
+      return $this -> drawSymbol($this->value);
 		}
 	}
 
